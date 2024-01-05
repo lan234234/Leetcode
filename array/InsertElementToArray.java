@@ -1,7 +1,7 @@
 package array;
 
 public class InsertElementToArray {
-    public static int[] insertElementToArray(int[] array, int[] insertArray) {
+    public int[] insertElementToArray(int[] array, int[] insertArray) {
         //corner case
         if (insertArray == null || insertArray.length < 2 || insertArray[1] < 0) return array;
         if (array == null) {
