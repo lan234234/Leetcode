@@ -1,5 +1,10 @@
 package array;
 
+/*
+given an array, and an element to insert, and the position to insert this element,
+return a new array with the element inserted
+* */
+
 public class InsertElementToArray {
     public int[] insertElementToArray(int[] array, int[] insertArray) {
         //corner case
