@@ -9,10 +9,10 @@ public class SwapTwoElement_541 {
         // assume: int array
         // input: int[]
         // output: int[]
-    /* corner case
-    array == null || array.length == 0
-    i or j is/are invalid
-    */
+        /* corner case
+        array == null || array.length == 0
+        i or j is/are invalid
+        */
         int temp = array[i];
         array[i] = array[j];
         array[j] = temp;
