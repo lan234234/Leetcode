@@ -39,3 +39,9 @@ public class FirstOccurrence_15 {
     }
 
 }
+
+/*
+Time complexity: O(logn)
+Space complexity: O(1)
+
+ */
