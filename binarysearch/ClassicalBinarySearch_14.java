@@ -13,7 +13,7 @@ assume: A is an int[] and T is an integer
 
  */
 
-public class ClassicalBinarySearch {
+public class ClassicalBinarySearch_14 {
     public int classicBinarySearch(int[] array, int target) {
         //corner case:
         if (array == null || array.length == 0) {
