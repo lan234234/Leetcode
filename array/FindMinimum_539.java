@@ -4,7 +4,7 @@ package array;
 Given an array, return its minimum value
  */
 
-public class FindMinimum {
+public class FindMinimum_539 {
     public int findMinimum(int[] array) {
         //corner case:
         if (array == null || array.length == 0)
