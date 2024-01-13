@@ -1,5 +1,18 @@
 package binarysearch;
 
+/*
+Given an integer array nums which is sorted in ascending order
+and all of its elements are unique and given also an integer k,
+return the kth missing number starting from the leftmost number of the array.
+
+assume:
+array: int[], sorted in ascending order, no duplicate
+	start from the leftmost
+	not null and not empty
+k: int, > 0
+
+ */
+
 public class KthMissingNumber_l1060 {
     public int kthMissingNumber(int[] arr, int k) {
         //step1: binary search to find the last element having missing number of k - 1
