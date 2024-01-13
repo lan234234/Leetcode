@@ -17,29 +17,30 @@ solution: binary search to find the number before the kth missing number
 
 public class KthMissingPositive_l1539 {
     public int KthMissingPositiveNumber(int[] arr, int k) {
+        //case1: missing number is before the first element
+        if (arr.length == 0 || k < arr[0]) {
+            return k;
+        }
         int left = 0;
         int right = arr.length - 1;
         while (left < right - 1) {
             int mid = left + (right - left) / 2;
-            if (arr[mid] - mid < 1 + k) {
-                left = mid;
-            } else {
+            int missing = arr[mid] - mid - 1;
+            if (missing >= k) {
                 right = mid - 1;
+            } else {
+                left = mid;
             }
         }
-        //case 1: missing number is between left and right
-        if (arr[left] - left < 1 + k && arr[right] - right >= 1 + k) {
-            int preMissing = arr[left] - left - 1;
-            return k - preMissing + arr[left];
+        //case2: missing number is after right
+        int rightMissing = arr[right] - right - 1;
+        if (rightMissing < k) {
+            return arr[right] - rightMissing + k;
         }
-        //case 2: missing number is after the right element
-        if (arr[right] - right < 1 + k) {
-            int preMissing = arr[right] - right - 1;
-            return k - preMissing + arr[right];
-        }
-        //case 3: missing number is before the left element
-        // in this case the missing number must be before arr[0]
-        return k;
+        //case3: missing number is between left and right
+        int leftMissing = arr[left] - left - 1;
+        return arr[left] - leftMissing + k;
+
     }
 
 }
