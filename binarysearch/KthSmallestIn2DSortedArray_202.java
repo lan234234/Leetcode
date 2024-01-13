@@ -43,6 +43,6 @@ public class KthSmallestIn2DSortedArray_202 {
 }
 
 /*
-time complexity: O(log(m + n))
-space complexity: O(log(m + n))
+time complexity: O(log(k))
+space complexity: O(log(k))
  */
