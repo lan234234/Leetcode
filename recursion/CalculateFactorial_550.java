@@ -2,9 +2,11 @@ package recursion;
 
 /*
 calculate factorial of n
- */
 
-//Assumption: n > 1
+Assumption:
+    n > 0
+    not overflow
+ */
 
 public class CalculateFactorial_550 {
     // method 1:
