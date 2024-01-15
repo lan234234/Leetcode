@@ -30,4 +30,8 @@ public class Fibonacci_624 {
         return fibonacci(n - 1) + fibonacci(n - 2);
     }
 
+    /*
+    time complexity: O(2^n)
+    space complexity: O(n)
+     */
 }
