@@ -15,6 +15,7 @@ overflow???
  */
 
 public class Fibonacci_624 {
+    //method 1: recursion
     public int fibonacci(int n) {
         //corner case:
         if (n < 0) {
