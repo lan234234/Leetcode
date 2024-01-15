@@ -7,6 +7,7 @@ public class IndexOfMinValue_546 {
             if (array[minIndex] > array[i]) {
                 minIndex = i;
             }
+            i++;
         }
         return minIndex;
     }
