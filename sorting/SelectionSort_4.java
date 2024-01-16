@@ -1,12 +1,17 @@
 package sorting;
 
+/*
+Given an array, sort the elements in the array in ascending order.
+The selection sort algorithm should be used to solve this problem.
+ */
+
 public class SelectionSort_4 {
     public int[] selectionSort(int[] array) {
         //corner case:
         if (array == null || array.length <= 1) {
             return array;
         }
-//general case:
+        //general case:
         for (int i = 0; i < array.length - 1; i++) {
             //find the min in the array in the range of [i, array.length - 1]
             int minIndex = i;
