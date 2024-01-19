@@ -1,5 +1,18 @@
 package linkedlist;
 
+/*
+Generate a linked list of length n, where the nodes contains numbers from 0 to n-1 in order.
+
+clarify:
+Can I directly use the ListNode class or I have to implement it?
+assume:
+n > 0
+
+input: int n
+output: ListNode (head of the linkedList)
+
+ */
+
 public class CreateLinkedList_554 {
     public class ListNode {
         int val;
