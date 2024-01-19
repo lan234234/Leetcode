@@ -36,4 +36,7 @@ public class FindKthListNode {
         return head;
     }
 
+//    time complexity: O(min(n, k))
+//    space complexity: O(1)
+
 }
