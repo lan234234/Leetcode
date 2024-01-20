@@ -23,7 +23,7 @@ public class InsertInSortedLinkedList_39 {
             val = n;
         }
     }
-    public ListNode insertInSortedLinkedList_39(ListNode head, int target) {
+    public ListNode insertInSortedLinkedList(ListNode head, int target) {
         ListNode newNode = new ListNode(target);
         //general case:
         ListNode dummy = new ListNode(-1);
