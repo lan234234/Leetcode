@@ -17,11 +17,6 @@ public class RemoveNodeInLinkedList_414 {
         }
     }
     public ListNode removeNodeInLinkedList(ListNode head, int val) {
-        //corner case:
-        if (head == null) {
-            return head;
-        }
-    //general case:
         ListNode dummy = new ListNode(-1);
         ListNode pre = dummy;
         dummy.next = head;
