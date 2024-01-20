@@ -5,7 +5,7 @@ clarify:
 if head == null		return null
 if length is odd		return middle
 if 	      even	return first nodes of middle ?
-
+assume: single linkedList without cycle
 input: ListNode head
 output: ListNode
 
