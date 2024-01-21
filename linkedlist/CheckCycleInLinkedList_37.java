@@ -10,14 +10,6 @@ assume: single linked list
  */
 
 public class CheckCycleInLinkedList_37 {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor
-        ListNode(int n) {
-            val = n;
-        }
-    }
     public boolean checkCycleInLinkedList(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;

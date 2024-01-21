@@ -14,14 +14,6 @@ output: ListNode
  */
 
 public class FindKthListNode {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor:
-        ListNode(int n) {
-            val = n;
-        }
-    }
 
     public ListNode findKthListNode(ListNode head, int k) {
         //corner case:

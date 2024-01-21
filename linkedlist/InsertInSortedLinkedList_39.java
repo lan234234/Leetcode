@@ -15,14 +15,6 @@ output: ListNode newHead
  */
 
 public class InsertInSortedLinkedList_39 {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor:
-        ListNode(int n) {
-            val = n;
-        }
-    }
     public ListNode insertInSortedLinkedList(ListNode head, int target) {
         ListNode newNode = new ListNode(target);
         //general case:
@@ -30,7 +22,7 @@ public class InsertInSortedLinkedList_39 {
         dummy.next = head;
         ListNode cur = dummy;
         while (cur.next != null) {
-            if (cur.next.val < target) {
+            if (cur.next.value < target) {
                 cur = cur.next;
             } else {
                 //case 1: insert Node in somewhere after dummy and before end

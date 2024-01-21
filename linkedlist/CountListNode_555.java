@@ -13,14 +13,6 @@ output: int
  */
 
 public class CountListNode_555 {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor
-        ListNode(int n) {
-            val = n;
-        }
-    }
     public int countListNode(ListNode head) {
         int count = 0;
         while( head != null) {

@@ -14,14 +14,6 @@ output: ListNode (head of the linkedList)
  */
 
 public class CreateLinkedList_554 {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor
-        ListNode(int n) {
-            val = n;
-        }
-    }
 
     public ListNode createLinkedList(int n) {
         ListNode head = new ListNode(0);
