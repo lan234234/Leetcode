@@ -4,7 +4,7 @@ public class ListNode {
     int value;
     ListNode next;
     //constructor:
-    ListNode(int n) {
+    public ListNode(int n) {
         value = n;
     }
 }
