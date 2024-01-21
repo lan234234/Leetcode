@@ -8,14 +8,6 @@ assume: single linkedList without cycle
  */
 
 public class RemoveNodeInLinkedList_414 {
-    public class ListNode {
-        int value;
-        ListNode next;
-        // constructor
-        ListNode(int n) {
-            value = n;
-        }
-    }
     public ListNode removeNodeInLinkedList(ListNode head, int val) {
         ListNode dummy = new ListNode(-1);
         ListNode pre = dummy;

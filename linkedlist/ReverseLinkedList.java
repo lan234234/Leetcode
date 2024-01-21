@@ -13,14 +13,6 @@ output: ListNode newHead
  */
 
 public class ReverseLinkedList {
-    public class ListNode {
-        int value;
-        ListNode next;
-        //constructor:
-        ListNode(int n) {
-            value = n;
-        }
-    }
     /*
     / method 1: iterative
      */

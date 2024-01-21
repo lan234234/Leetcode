@@ -14,14 +14,6 @@ output: ListNode
  */
 
 public class Merge2SortedLinkedList_40 {
-    public class ListNode {
-        int value;
-        ListNode next;
-        // constructor
-        ListNode(int n) {
-            value = n;
-        }
-    }
 
     public ListNode merge2SortedLinkedList(ListNode one, ListNode two) {
         ListNode dummy = new ListNode(-1);

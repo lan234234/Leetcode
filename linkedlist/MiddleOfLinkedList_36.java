@@ -12,14 +12,6 @@ output: ListNode
  */
 
 public class MiddleOfLinkedList_36 {
-    public class ListNode {
-        int val;
-        ListNode next;
-        //constructor:
-        ListNode(int n) {
-            val = n;
-        }
-    }
     public ListNode middleOfLinkedList(ListNode head) {
         //corner case:
         if (head == null) {
