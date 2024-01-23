@@ -64,7 +64,7 @@ public class IsPalindrome_306 {
     }
 
 //    time complexity: O(n)
-//    space complexity: O(1)
+//    space complexity: O(n)
 
 
 }
