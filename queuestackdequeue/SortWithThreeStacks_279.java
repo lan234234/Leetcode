@@ -14,6 +14,9 @@ output: LinkedList or void ? sort in ascending order from top to bottom?
  */
 
 public class SortWithThreeStacks_279 {
+    /*
+    / method 1:
+     */
     public void sortWithThreeStacks(LinkedList<Integer> s1) {
         // corner case:
         if (s1 == null || s1.size() == 1) {
@@ -49,4 +52,40 @@ public class SortWithThreeStacks_279 {
 //    time complexity: O(n^2)
 //    space complexity: O(n)
 
+    /*
+    / method 2: merge sort
+     */
+    public void sortWithThreeStacks2(LinkedList<Integer> s1) {
+        // base case:
+        if (s1 == null || s1.size() <= 1) {
+            return;
+        }
+        // general case:
+        int mid = s1.size() / 2;
+        LinkedList<Integer> s2 = new LinkedList<>();
+        LinkedList<Integer> s3 = new LinkedList<>();
+        while (s2.size() < mid) {
+            s2.offerFirst(s1.pollFirst());
+        }
+        sortWithThreeStacks2(s1);
+        sortWithThreeStacks2(s2);
+        merge(s1, s2, s3);
+    }
+
+    private void merge(LinkedList<Integer> s1, LinkedList<Integer> s2, LinkedList<Integer> s3) {
+        // offer smaller element to s3
+        while (s1.size() > 0 && s2.size() > 0) {
+            s3.offerFirst(s1.peekFirst() <= s2.peekFirst() ? s1.pollFirst() : s2.pollFirst());
+        }
+        LinkedList<Integer> temp = s1.size() > 0 ? s1 : s2;
+        while (temp.size() > 0) {
+            s3.offerFirst(temp.pollFirst());
+        }
+        // move all elements from s3 to s1
+        while (s3.size() > 0) {
+            s1.offerFirst(s3.pollFirst());
+        }
+    }
+//    time complexity: O(nlogn)
+//    space complexity: O(n)
 }
