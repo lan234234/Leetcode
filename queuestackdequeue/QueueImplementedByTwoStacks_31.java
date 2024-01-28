@@ -1,0 +1,62 @@
+package queuestackdequeue;
+
+import java.util.LinkedList;
+
+/*
+Implement a queue by using two stacks.
+
+
+CLARIFY:
+1. field:
+size
+
+2. function:
+size()
+isEmpty()
+peek()
+poll()
+offer()
+principle: first in first out
+
+When the queue is empty, poll() and peek() should return null.
+
+ */
+
+public class QueueImplementedByTwoStacks_31 {
+    LinkedList<Integer> s1 = new LinkedList<>();
+    LinkedList<Integer> s2 = new LinkedList<>();
+
+    public int size() {
+        return s1.size() + s2.size();
+    }
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+    public Integer peek() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        if (s2.size() == 0) {
+            move(s1, s2);
+        }
+        return s2.peekFirst();
+    }
+    public Integer poll() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        if (s2.size() == 0) {
+            move(s1, s2);
+        }
+        return s2.pollFirst();
+    }
+    public boolean offer(Integer n) {
+        return s1.offerFirst(n);
+    }
+    public void move(LinkedList<Integer> s1, LinkedList<Integer> s2) {
+        while (!s1.isEmpty()) {
+            s2.offerFirst(s1.pollFirst());
+        }
+    }
+
+}
