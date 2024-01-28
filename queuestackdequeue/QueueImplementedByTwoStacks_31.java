@@ -60,3 +60,6 @@ public class QueueImplementedByTwoStacks_31 {
     }
 
 }
+//    time complexity:
+//        enqueue: O(1)
+//        dequeue: amortized O(1)
