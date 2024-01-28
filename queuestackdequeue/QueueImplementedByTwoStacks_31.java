@@ -23,9 +23,12 @@ When the queue is empty, poll() and peek() should return null.
  */
 
 public class QueueImplementedByTwoStacks_31 {
-    LinkedList<Integer> s1 = new LinkedList<>();
-    LinkedList<Integer> s2 = new LinkedList<>();
-
+    LinkedList<Integer> s1;
+    LinkedList<Integer> s2;
+    public QueueImplementedByTwoStacks_31() {
+        s1 = new LinkedList<>();
+        s2 = new LinkedList<>();
+    }
     public int size() {
         return s1.size() + s2.size();
     }
@@ -37,7 +40,7 @@ public class QueueImplementedByTwoStacks_31 {
             return null;
         }
         if (s2.size() == 0) {
-            move(s1, s2);
+            move();
         }
         return s2.peekFirst();
     }
@@ -46,20 +49,20 @@ public class QueueImplementedByTwoStacks_31 {
             return null;
         }
         if (s2.size() == 0) {
-            move(s1, s2);
+            move();
         }
         return s2.pollFirst();
     }
     public boolean offer(Integer n) {
         return s1.offerFirst(n);
     }
-    public void move(LinkedList<Integer> s1, LinkedList<Integer> s2) {
+    public void move() {
         while (!s1.isEmpty()) {
             s2.offerFirst(s1.pollFirst());
         }
     }
-
 }
+
 //    time complexity:
 //        enqueue: O(1)
 //        dequeue: amortized O(1)
