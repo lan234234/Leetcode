@@ -90,11 +90,11 @@ public class DequeByStacks_645 {
    * 	peek/poll: worst case - O(n)
    */
 
-  // field:
-  Deque<Integer> stackFirst;
+  // member field:
+    Deque<Integer> stackFirst;
     Deque<Integer> stackLast;
     Deque<Integer> buffer;
-    // function:
+    // API:
     // constructor:
     public DequeByStacks_645() {
         stackFirst = new ArrayDeque<>();
