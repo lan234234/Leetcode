@@ -32,7 +32,7 @@ public class StackImplementedByLinkedList {
         return result.value;
     }
     public Integer top() {
-        return head.value;
+        return size == 0 ? null : head.value;
     }
 
 }
