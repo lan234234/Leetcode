@@ -23,8 +23,10 @@ When the queue is empty, poll() and peek() should return null.
  */
 
 public class QueueImplementedByTwoStacks_31 {
+    // member field
     LinkedList<Integer> s1;
     LinkedList<Integer> s2;
+    // API
     public QueueImplementedByTwoStacks_31() {
         s1 = new LinkedList<>();
         s2 = new LinkedList<>();
