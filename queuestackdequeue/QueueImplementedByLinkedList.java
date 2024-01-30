@@ -17,7 +17,6 @@ public class QueueImplementedByLinkedList {
     }
     public boolean offer(Integer n) {
         ListNode newTail = new ListNode(n);
-        size++;
         if (this.isEmpty()) {
             head = newTail;
             tail = newTail;
@@ -25,6 +24,7 @@ public class QueueImplementedByLinkedList {
             tail.next = newTail;
             tail = newTail;
         }
+        size++;
         return true;
     }
     public Integer peek() {
