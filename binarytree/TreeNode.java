@@ -9,5 +9,4 @@ public class TreeNode {
     public TreeNode(int key) {
         this.key = key;
     }
-
 }
