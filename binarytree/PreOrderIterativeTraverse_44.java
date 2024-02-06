@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class PreOrderIterativeTraverse {
+public class PreOrderIterativeTraverse_44 {
     public List<Integer> preOrderIterativeTraverse(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         if (root == null) {
