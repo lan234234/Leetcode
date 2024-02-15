@@ -3,7 +3,7 @@ package heap;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
-public class KSmallestInUnsortedArray {
+public class KSmallestInUnsortedArray_25 {
     /**
      * method 2: minHeap
      */
