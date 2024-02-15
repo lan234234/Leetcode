@@ -1,5 +1,6 @@
 package heap;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
@@ -56,6 +57,61 @@ public class KSmallestInUnsortedArray_25 {
             result[j] = maxHeap.poll();
         }
         return result;
+    }
+    /**
+     * method 4: quick sort
+     */
+    public int[] kSmallestInUnsortedArray4(int[] array, int k) {
+        // corner case:
+        if (array == null || array.length == 0 || k <= 0 || k > array.length) {
+            return new int[0];
+        }
+        // general case:
+        partition(array, k, 0, array.length - 1);
+        int[] result = new int[k];
+        copy(array, result);
+        Arrays.sort(result);
+        return result;
+    }
+    private void partition(int[] array, int k, int leftIndex, int rightIndex) {
+        // recursion rule:
+        // step 1: choose a pivot
+        // Math.random() --> [0, 1)
+        // [leftIndex, rightIndex + 1) = leftIndex + [0, rightIndex - leftIndex + 1)
+        int pivotIndex = (int) (Math.random() * (rightIndex - leftIndex + 1)) + leftIndex;
+        // step 2: partition
+        swap(array, pivotIndex, rightIndex);
+        int i = leftIndex;
+        int j = rightIndex - 1;
+        while (i <= j) {
+            if (array[i] <= array[rightIndex]) {
+                i++;
+            } else if (array[j] > array[rightIndex]) {
+                j--;
+            } else {
+                swap(array, i++, j--);
+            }
+        }
+        swap(array, rightIndex, i);
+        // step 3:
+        int number = i - leftIndex + 1;
+        if (number > k + 1) {
+            partition(array, k, leftIndex, i);
+        } else if (number < k) {
+            partition(array, k - number, i + 1, rightIndex);
+        } else {
+            return;
+        }
+    }
+    private void copy(int[] array, int[] result) {
+        for(int i  = 0; i < result.length; i++) {
+            result[i] = array[i];
+        }
+    }
+    private void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
 }
