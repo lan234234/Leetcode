@@ -61,6 +61,4 @@ public class WallsAndGates_503 {
             }
         }
     }
-
-
 }
