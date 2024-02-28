@@ -1,5 +1,9 @@
 package array;
 
+/**
+ * Repeatedly remove all adjacent, repeated characters in a given string from left to right.
+ * No adjacent characters should be identified in the final string.
+ */
 public class DeDuplicationsIV_82 {
     public String deDuplicationsIV(String input) {
         // corner case:
