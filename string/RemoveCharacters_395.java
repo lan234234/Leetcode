@@ -18,7 +18,7 @@ public class RemoveCharacters_395 {
         // general case:
         char[] array = input.toCharArray();
         // [0, i): the characters should be remained
-        // [i, j): the characters will be removed
+        // [i, j): the area we have processed but we do not care about
         // [j, array.length - 1]: the characters waiting for processing
         int i = 0;
         int j = 0;
@@ -28,7 +28,8 @@ public class RemoveCharacters_395 {
             if (set.contains(array[j])) {
                 j++;
             } else {
-                swap(array, i++, j++);
+                // move array[j] to the valid area
+                array[i++] = array[j++];
             }
         }
         return new String(array, 0, i);
@@ -40,11 +41,7 @@ public class RemoveCharacters_395 {
         }
         return set;
     }
-    private void swap(char[] array, int i, int j) {
-        char temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
+
 // TC: O(m + n)
 // SC: O(m + n)
 
