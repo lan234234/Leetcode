@@ -1,4 +1,4 @@
-package array;
+package arrayandstring;
 
 /**
  * Repeatedly remove all adjacent, repeated characters in a given string from left to right.
