@@ -11,7 +11,7 @@ public class DeDuplicationsII_80 {
         if (input == null || input.length() <= 1) {
             return input;
         }
-// general case:
+        // general case:
         char[] array = input.toCharArray();
         int i = 0;
         int j = 0;
