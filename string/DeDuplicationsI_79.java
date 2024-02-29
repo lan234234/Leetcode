@@ -1,5 +1,9 @@
 package string;
 
+/**
+ * Remove adjacent, repeated characters in a given string,
+ * leaving only one character for each group of such characters.
+ */
 public class DeDuplicationsI_79 {
     public String removeRepeatedCharactersI(String input) {
         // corner case:
