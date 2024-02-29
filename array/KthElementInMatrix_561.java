@@ -1,4 +1,4 @@
-package arrayandstring;
+package array;
 
 /*
 Given a matrix, find the Kth index element.

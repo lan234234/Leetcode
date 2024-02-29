@@ -1,4 +1,4 @@
-package arrayandstring;
+package array;
 
 /*
 given an array, and an element to insert, and the position to insert this element,

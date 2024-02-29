@@ -1,4 +1,4 @@
-package arrayandstring;
+package array;
 
 /*
 Given a two-dimensional array, calculate the sum of all its elements

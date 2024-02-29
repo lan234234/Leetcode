@@ -1,4 +1,4 @@
-package arrayandstring;
+package array;
 
 /*
 Given an array, return sum of all elements.

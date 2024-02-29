@@ -1,4 +1,4 @@
-package arrayandstring;
+package array;
 
 /*
 Given an array, return its minimum value
