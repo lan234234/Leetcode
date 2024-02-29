@@ -1,4 +1,4 @@
-package array;
+package arrayandstring;
 
 /*
 Given an array, and two indices i and j.

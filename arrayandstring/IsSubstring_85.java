@@ -1,4 +1,4 @@
-package array;
+package arrayandstring;
 
 public class IsSubstring_85 {
     public int isSubstring(String large, String small) {
