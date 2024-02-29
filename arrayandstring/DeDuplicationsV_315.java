@@ -2,7 +2,7 @@ package arrayandstring;
 
 import java.util.Arrays;
 
-public class DeDuplications_315 {
+public class DeDuplicationsV_315 {
     public int[] deDuplicationV(int[] array) {
         // corner case:
         if (array == null || array.length <= 2) {
