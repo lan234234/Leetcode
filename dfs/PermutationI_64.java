@@ -3,6 +3,10 @@ package dfs;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Given a string with no duplicate characters,
+ * return a list with all permutations of the characters.
+ */
 public class PermutationI_64 {
     public List<String> permutationI(String input) {
         // assume no duplicate character in the input String
