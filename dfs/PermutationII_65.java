@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Given a string with possible duplicate characters,
+ * return a list with all permutations of the characters.
+ */
 public class PermutationII_65 {
     public List<String> permutationII(String input) {
         List<String> result = new ArrayList<>();
@@ -43,5 +47,9 @@ public class PermutationII_65 {
         array[i] = array[j];
         array[j] = temp;
     }
+    // TC: O(n! * n)
+    // SC: O(n^2) -- assume garbage collection happens immediately
+    //     O(n! * n) -- if not
+
 
 }
