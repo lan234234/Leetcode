@@ -3,6 +3,11 @@ package arrayandstring;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Given a string, replace adjacent, repeated characters
+ * with the character followed by the number of repeated occurrences.
+ * If the character does not have any adjacent, repeated occurrences, it is not changed.
+ */
 public class CompressStringI_173 {
     public String compressString(String input) {
         // assume all characters in input are 'a' to 'z'
@@ -44,5 +49,7 @@ public class CompressStringI_173 {
         }
         return list;
     }
+    // TC: O(n)
+    // SC: O(n)
 
 }
