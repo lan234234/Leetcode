@@ -4,7 +4,7 @@ package binarytree;
  * TreeNode with parent pointer
  */
 public class TreeNodeP {
-    int key;
+    public int key;
     TreeNodeP left;
     TreeNodeP right;
     TreeNodeP parent;
