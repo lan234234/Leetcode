@@ -5,9 +5,9 @@ package binarytree;
  */
 public class TreeNodeP {
     public int key;
-    TreeNodeP left;
-    TreeNodeP right;
-    TreeNodeP parent;
+    public TreeNodeP left;
+    public TreeNodeP right;
+    public TreeNodeP parent;
     // constructor:
     public TreeNodeP(int key, TreeNodeP parent) {
         this.key = key;
