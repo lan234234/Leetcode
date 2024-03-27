@@ -4,7 +4,7 @@ package binarytree;
  * Given two nodes in a binary tree (with parent pointer available),
  * find their lowest common ancestor.
  */
-public class LowestCommonAncestorII_127 {
+public class LCAII_127 {
     public TreeNodeP lowestCommonAncestorII(TreeNodeP one, TreeNodeP two) {
         // corner case:
         if (one == null || two == null) {
