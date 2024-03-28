@@ -1,5 +1,10 @@
 package binarytree;
 
+/**
+ * Given a binary tree in which each node contains an integer number.
+ * Find the maximum possible sum from any node to any node
+ * (the start node and the end node can be the same).
+ */
 public class MaxPathSumII_129 {
     public int maxPathSum(TreeNode root) {
         // assume all sum are in the integer range
