@@ -21,19 +21,20 @@ public class PermutationII_65 {
         helper(array, result, 0);
         return result;
     }
-    // determine which character will be fixed in current level
+    // at the level of index, determine which character will be fixed in current level
     private void helper(char[] array, List<String> result, int index) {
-        // base case:
-        if (index == array.length) {
+        // terminate condition:
+        if (index >= array.length - 1) {
             result.add(new String(array));
+            return;
         }
-        // general case:
         // set: store characters that has been chosen to be fixed in current position
         Set<Character> set = new HashSet();
         // all characters located in or after current index have the possibility to be fixed in current index
         for (int i = index; i < array.length; i++) {
-            // if the desired character have not been chosen, swap it with current character and add it to the set
+            // if the desired character not in set, swap it with current character and add it to the set
             if (!set.contains(array[i])) {
+                // can not change the order of these two operation
                 set.add(array[i]);
                 swap(array, i, index);
                 helper(array, result, index + 1);
@@ -47,6 +48,7 @@ public class PermutationII_65 {
         array[i] = array[j];
         array[j] = temp;
     }
+
     // TC: O(n! * n)
     // SC: O(n^2) -- assume garbage collection happens immediately
     //     O(n! * n) -- if not
