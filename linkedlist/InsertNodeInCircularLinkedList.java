@@ -1,47 +1,29 @@
 package linkedlist;
 
-/*
-insert a node in a circular linked list
-
-
-
-clarify:
-sorted
-before the insertion, is head.val the smallest ?
-head == null	return newNode with circular
-no duplicate
-
-input: ListNode head, int target
-
- */
 
 public class InsertNodeInCircularLinkedList {
-    public ListNode insertNodeInCircularLinkedList(ListNode head, int target) {
-        ListNode newNode = new ListNode(target);
+    public ListNode insertNodeInCircularLinkedList(ListNode head, int val) {
+        // assume the given linked list is guaranteed to have a cycle
+        // assume all nodes in list are sorted in ascending order based on their values
+        ListNode newNode = new ListNode(val);
         // corner case:
         if (head == null) {
             newNode.next = newNode;
             return newNode;
         }
+        // general case:
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode cur = dummy;
-        while (head.value < target) {
-            // no node with value >= target
-            // case 1: there is only 1 node in the circular (this node must have the largest value)
-            // case 2: cur.value is the largest, next.value is the smallest and cur is not dummy
-            if (cur == head || (cur.value > head.value && cur != dummy)) {
-                cur.next = newNode;
-                newNode.next = head;
-                return dummy.next;
-            }
-            cur = head;
-            head = head.next;
+        ListNode pre = dummy;
+        ListNode cur = head;
+        while (cur.value < val && (pre == dummy || cur.value >= pre.value) && cur != pre) {
+            pre = cur;
+            cur = cur.next;
         }
-        // case 3: next with value > target, insert newNode before next
-        cur.next = newNode;
-        newNode.next = head;
+        pre.next = newNode;
+        newNode.next = cur;
         return dummy.next;
+
     }
 
 }
