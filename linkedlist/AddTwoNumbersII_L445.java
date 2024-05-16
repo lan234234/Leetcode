@@ -22,34 +22,25 @@ public class AddTwoNumbersII_L445 {
         one = reverseLinkedList(one);
         two = reverseLinkedList(two);
         // step 2: calculate the sum and create the new list
-        ListNode cur1 = one;
-        ListNode cur2 = two;
+        int remain = 0;
         ListNode dummy = new ListNode(-1);
         ListNode cur = dummy;
-        int sum = 0;
-        while (cur1 != null && cur2 != null) {
-            sum += cur1.value + cur2.value;
-            cur.next = sum < 10 ? new ListNode(sum) : new ListNode(sum - 10);
-            sum = sum < 10 ? 0 : 1;
+        while (one != null || two != null) {
+            int sum = remain;
+            if (one != null) {
+                sum += one.value;
+                one = one.next;
+            }
+            if (two != null) {
+                sum += two.value;
+                two = two.next;
+            }
+            cur.next = new ListNode(sum % 10);
+            remain = sum / 10;
             cur = cur.next;
-            cur1 = cur1.next;
-            cur2 = cur2.next;
         }
-        ListNode newCur = cur1 == null ? cur2 : cur1;
-        // continue to calculate the sum when sum != 0
-        while (newCur != null && sum != 0) {
-            sum += newCur.value;
-            cur.next = sum < 10 ? new ListNode(sum) : new ListNode(sum - 10);
-            sum = sum < 10 ? 0 : 1;
-            cur = cur.next;
-            newCur = newCur.next;
-        }
-        if (sum == 0) {
-            // directly link the rest list
-            cur.next = newCur;
-        } else {
-            // create a new ListNode with value 1
-            cur.next = new ListNode(1);
+        if (remain != 0) {
+            cur.next = new ListNode(remain);
         }
         ListNode head = dummy.next;
         dummy.next = null;
@@ -73,6 +64,7 @@ public class AddTwoNumbersII_L445 {
             cur = next;
         }
         return head;
+
     }
 //    time complexity: O(m + n)
 //    space complexity: O(1)
