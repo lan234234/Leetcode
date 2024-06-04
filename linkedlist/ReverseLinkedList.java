@@ -17,24 +17,21 @@ public class ReverseLinkedList {
     / method 1: iterative
      */
     public ListNode reverseLinkedList_34(ListNode head) {
-        //corner case:
+        // corner case:
         if (head == null || head.next == null) {
             return head;
         }
-        //general case:
-        ListNode pre = head;	//the head of the linkedList which is already reversed
-        ListNode cur = pre.next;		//the head of the remaining linkedList
-        ListNode next = cur.next;
-        //break the link between head and cur
-        head.next = null;
-        while (next != null) {
-            cur.next = pre;
-            pre = cur;
-            cur = next;
-            next = next.next;
+        // general case:
+        ListNode pre = null;		// head of the reversed list
+        ListNode next;			// the next node of the unreversed list's head
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
         }
-        cur.next = pre;
-        return cur;
+        return pre;
+
     }
 //    time complexity: O(n)
 //    space complexity: O(1)
