@@ -2,47 +2,53 @@ package linkedlist;
 
 public class RotateListByKPlaces_166 {
     public ListNode rotateListByKPlaces(ListNode head, int k) {
-        // assume k >= 0
+        // assume no cycle
+        // assume single linked list
+        // assume the length of the list is in integer range
         // corner case:
-        if (k == 0 || head == null) {
+        if (head == null || head.next == null || k <= 0) {
             return head;
         }
         // general case:
-        // step 1: find kth element
-        ListNode fast = findKth(head, k);
-        if (fast.next == head) {
-            return rotateListByKPlaces(head, k % fast.value);
-        }
-        // step 2: find kth from the end
-        ListNode pre = null;
-        ListNode cur = head;
-        while (fast.next != null) {
-            pre = cur;
-            cur = cur.next;
-            fast = fast.next;
-        }
-        // step 3: rotate
-        if (pre == null) {		// can also use dummy
+        // step 1: get nth node
+        ListNode node = getNth(head, k);
+        if (node.next == null) {
             return head;
         }
+        // step 2: get the nth and (n + 1)th node from end
+        ListNode pre = null;	// the node n +1th node from end
+        ListNode cur = head;	// the nth node from end
+        while (node.next != null) {
+            pre = cur;
+            node = node.next;	// will finally point to the last node
+            cur = cur.next;
+        }
+        // step 3: rotate list
         pre.next = null;
-        fast.next = head;
+        node.next = head;
         return cur;
     }
-    // find kth node, return new ListNode(size) if k > size
-    private ListNode findKth(ListNode head, int k) {
-        ListNode cur = head;
+
+    private ListNode getNth(ListNode head, int n) {
+        // base case:
+        if (n == 1) {
+            return head;
+        }
+        // step 1: find the nth node from head
         int count = 1;
-        while (cur != null && k != count) {
+        ListNode cur = head;
+        while (count != n && cur.next != null ) {
             cur = cur.next;
             count++;
         }
-        if (cur != null) {
+        // case 1:nth node is found
+        if (count == n) {
             return cur;
         }
-        ListNode node = new ListNode(count - 1);
-        node.next = head;
-        return node;
+        n = n % count;
+        n = n == 0 ? count : n;
+        // case 2: n is larger than list's length
+        return getNth(head, n);
     }
 
 }
