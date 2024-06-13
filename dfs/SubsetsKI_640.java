@@ -3,7 +3,7 @@ package dfs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubsetsKI_641 {
+public class SubsetsKI_640 {
     public List<String> subsetsOfSizeK(String input, int k) {
         List<String> result = new ArrayList<>();
         // corner case:
