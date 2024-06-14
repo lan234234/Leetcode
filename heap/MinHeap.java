@@ -3,18 +3,26 @@ package heap;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-public class MinHeap{
-    int[] array;
-    int size;
+public class MinHeap<E extends Comparable<E>> {
 
-    public MinHeap(int capability) {
-        if (capability <= 0) {
-            throw new IllegalArgumentException("capability can not be <= 0");
-        }
-            array = new int[capability];
+    // instance fields:
+    Object[] array;
+    int size;
+    int DEFAULT_CAPACITY = 16;
+
+    // constructors:
+    public MinHeap() {
+        array = new Object[DEFAULT_CAPACITY];
     }
 
-    public MinHeap(int[] array) {
+    public MinHeap(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Invalid argument");
+        }
+        array = new Object[capacity];
+    }
+
+    public MinHeap(E[] array) {
         if (array == null || array.length == 0) {
             throw new IllegalArgumentException("input array can not be null or empty");
         }
@@ -22,6 +30,8 @@ public class MinHeap{
         size = array.length;
         heapify();
     }
+
+    // methods:
 
     public int size() {
         return size;
@@ -31,74 +41,49 @@ public class MinHeap{
         return size == 0;
     }
 
-    public boolean isFull() {
+    private boolean isFull() {
         return size == array.length;
     }
 
-    public int peek() {
-        if (size == 0) {
-            throw new NoSuchElementException("heap is empty");
-        }
-        return array[0];
+    private void increaseCapacity() {
+        array = Arrays.copyOf(array, (int) (array.length * 1.5));
     }
 
-    public void offer(int n) {
+    public boolean offer(E e) {
         if (isFull()) {
-            array = Arrays.copyOf(array, (int) (array.length * 1.5));
+            increaseCapacity();
         }
-        array[size] = n;
+        array[size] = e;
         percolateUp(size);
         size++;
+        return true;
     }
 
-    public int poll() {
+    public E peek() {
         if (size == 0) {
             throw new NoSuchElementException("heap is empty");
         }
-        int result = array[0];
+        return (E) array[0];
+    }
+
+    public E poll() {
+        if (isEmpty())	throw new NoSuchElementException("heap is empty");
+        E oldE = (E) array[0];
         array[0] = array[--size];
         percolateDown(0);
-        return result;
+        return oldE;
     }
 
-    public int update(int index, int ele) {
-        // corner case:
-        if (index < 0 || index >= size) {
-            throw new ArrayIndexOutOfBoundsException("invalid index range");
-        }
-// general case:
-        int oldEle = array[index];
-        array[index] = ele;
-        if (oldEle > ele) {
-            percolateUp(index);
-        } else if (oldEle < ele) {
-            percolateDown(index);
-        }
-        return oldEle;
-    }
-
-    public void percolateUp(int index) {
-        while (index != 0) {
-            int parentIndex = (index - 1) / 2;
-            if (array[parentIndex] > array[index]) {
-                swap(array, parentIndex, index);
-                index = parentIndex;
-            } else {
-                return;
-            }
-        }
-    }
-
-    public void percolateDown(int index) {
+    private void percolateDown(int index) {
         while (2 * index + 1 < size) {		// has child
             int leftChild = 2 * index + 1;
             int rightChild = leftChild + 1;
             int swapIndex = leftChild;
-            if (rightChild < size && array[rightChild] < array[leftChild]) {
+            if (rightChild < size && ((E) array[rightChild]).compareTo((E) array[leftChild]) < 0) {
                 swapIndex = rightChild;
             }
-            if (array[swapIndex] < array[index]) {
-                swap(array, swapIndex, index);
+            if (((E) array[swapIndex]).compareTo((E) array[index]) < 0) {
+                swap(swapIndex, index);
                 index = swapIndex;
             } else {
                 return;
@@ -106,16 +91,28 @@ public class MinHeap{
         }
     }
 
-    public void heapify() {		// no arguments
-        for (int index = (size - 2) / 2; index >= 0; index--) {
-            percolateDown(index);
+    private void percolateUp(int index) {
+        while (index > 0) {
+            int parent = (index - 1) / 2;
+            if (((E) array[parent]).compareTo((E) array[index]) > 0) {
+                swap(parent, index);
+                index = parent;
+            } else {
+                return;
+            }
         }
     }
 
-    public void swap(int[] array, int i, int j) {
-        int temp = array[i];
+    private void heapify() {
+        for (int i = (size - 2) / 2; i >= 0; i--) {
+            percolateDown(i);
+        }
+    }
+
+    private void swap(int i, int j) {
+        E temp = (E) array[i];
         array[i] = array[j];
         array[j] = temp;
     }
-}
 
+}
