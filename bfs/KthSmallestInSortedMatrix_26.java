@@ -33,4 +33,27 @@ public class KthSmallestInSortedMatrix_26 {
         return matrix[arr[0]][arr[1]];
     }
 
+    /**
+     * method 2: minHeap
+     * TC: O((min + k)logmin)
+     * SC: O(min)
+     * min = Math.min(k, n)
+     */
+    public int solution2(int[][] matrix, int k) {
+        int n = matrix.length;
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((arr1, arr2) -> (matrix[arr1[0]][arr1[1]] - matrix[arr2[0]][arr2[1]]));
+        int min = Math.min(k, n);
+        for (int i = 0; i < min; i++) {
+            minHeap.offer(new int[]{i, 0});
+        }
+        while (k > 1) {
+            int[] cur = minHeap.poll();
+            k--;
+            if (cur[1] == n - 1)    continue;
+            minHeap.offer(new int[]{cur[0], cur[1] + 1});
+        }
+        int[] arr = minHeap.peek();
+        return matrix[arr[0]][arr[1]];
+    }
+
 }
