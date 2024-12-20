@@ -56,4 +56,43 @@ public class KthSmallestInSortedMatrix_26 {
         return matrix[arr[0]][arr[1]];
     }
 
+    /**
+     * method 3: binary search
+     * TC: O(nlog(maxDiff)) = O(n)
+     * SC: O(1)
+     */
+    public int solution3(int[][] matrix, int k) {
+        int n = matrix.length;
+        int left = matrix[0][0];
+        int right = matrix[n - 1][n - 1];
+        int result = left;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int count = countSmallerOrEqual(mid, matrix);
+            if (count >= k) {
+                result = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return result;
+    }
+
+    private int countSmallerOrEqual(int num, int[][] matrix) {
+        int count = 0;
+        int row = 0;
+        int n = matrix.length;
+        int col = n - 1;
+        while (row < n && col >= 0) {
+            if (matrix[row][col] > num) {
+                col--;
+            } else {
+                count += col + 1;
+                row++;
+            }
+        }
+        return count;
+    }
+
 }
