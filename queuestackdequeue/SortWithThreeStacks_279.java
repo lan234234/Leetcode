@@ -58,37 +58,35 @@ public class SortWithThreeStacks_279 {
     /*
     / method 2: merge sort
      */
-    public void sortWithThreeStacks2(LinkedList<Integer> s1) {
-        // base case:
-        if (s1 == null || s1.size() <= 1) {
-            return;
-        }
-        // general case:
-        int mid = s1.size() / 2;
-        LinkedList<Integer> s2 = new LinkedList<>();
-        LinkedList<Integer> s3 = new LinkedList<>();
-        while (s2.size() < mid) {
-            s2.offerFirst(s1.pollFirst());
-        }
-        sortWithThreeStacks2(s1);
-        sortWithThreeStacks2(s2);
-        merge(s1, s2, s3);
+    public void sort(Deque<Integer> s1) {
+        Deque<Integer> s2 = new LinkedList<Integer>();
+        Deque<Integer> s3 = new LinkedList<Integer>();
+        sort(s1, s2, s3, s1.size());
     }
 
-    private void merge(LinkedList<Integer> s1, LinkedList<Integer> s2, LinkedList<Integer> s3) {
-        // offer smaller element to s3
-        while (s1.size() > 0 && s2.size() > 0) {
-            s3.offerFirst(s1.peekFirst() <= s2.peekFirst() ? s1.pollFirst() : s2.pollFirst());
+    private void sort(Deque<Integer> s1, Deque<Integer> s2, Deque<Integer> s3, int size) {
+        if (size <= 1)  return;
+        int mid1 = size / 2;
+        int mid2 = size - mid1;
+        for (int i = 0; i < mid2; i++) {
+            s2.offerFirst(s1.pollFirst());
         }
-        LinkedList<Integer> temp = s1.size() > 0 ? s1 : s2;
-        while (temp.size() > 0) {
-            s3.offerFirst(temp.pollFirst());
+        sort(s1, s2, s3, mid1);
+        sort(s2, s1, s3, mid2);
+        while (mid1 > 0 || mid2 > 0) {
+            if (mid1 != 0 && (mid2 == 0 || s1.peekFirst() <= s2.peekFirst())) {
+                s3.offerFirst(s1.pollFirst());
+                mid1--;
+            } else {
+                s3.offerFirst(s2.pollFirst());
+                mid2--;
+            }
         }
-        // move all elements from s3 to s1
-        while (s3.size() > 0) {
+        while (size > 0) {
             s1.offerFirst(s3.pollFirst());
+            size--;
         }
     }
-//    time complexity: O(nlogn)
+    //    time complexity: O(nlogn)
 //    space complexity: O(n)
 }
