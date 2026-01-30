@@ -1,5 +1,6 @@
 package queuestackdequeue;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
 /*
@@ -17,16 +18,17 @@ public class SortWithThreeStacks_279 {
     /*
     / method 1:
      */
-    public void sortWithThreeStacks(LinkedList<Integer> s1) {
+    public void sortWithThreeStacks(Deque<Integer> s1) {
         // corner case:
         if (s1 == null || s1.size() == 1) {
             return;
         }
         // general case:
-        LinkedList<Integer> buffer = new LinkedList();
-        LinkedList<Integer> result = new LinkedList();
+        Deque<Integer> buffer = new LinkedList();
+        Deque<Integer> result = new LinkedList();
         while (s1.size() > 0) {
-            // step 1: find the min and store the value in global min
+            // step 1: traverse all elements in s1 to find the min and store the value in global min
+            // move all elements from s1 to buffer
             int min = s1.peekFirst();
             while (!s1.isEmpty()) {
                 if (s1.peekFirst() < min) {
@@ -34,7 +36,8 @@ public class SortWithThreeStacks_279 {
                 }
                 buffer.offerFirst(s1.pollFirst());
             }
-            // step 2: find the min and move it to result
+            // step 2: traverse again to find min and move min to result
+            // and move rest back to s1
             while (!buffer.isEmpty()) {
                 if (buffer.peekFirst() == min) {
                     result.offerFirst(buffer.pollFirst());
