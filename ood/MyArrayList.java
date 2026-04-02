@@ -69,7 +69,7 @@ public class MyArrayList {
     private void resize() {
         int newCap = array.length * RESIZE_FACTOR;
         if (newCap < 0) throw new OutOfMemoryError("too large");
-        array = Arrays.copyOf(array, array.length * RESIZE_FACTOR);
+        array = Arrays.copyOf(array, newCap);
     }
 
     private void validIndex(int index) {
