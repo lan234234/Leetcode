@@ -12,16 +12,13 @@ class Solution {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (i == 0 || j == 0) {
-                    toPacific[i][j] = true;
+                    if (!toPacific[i][j])   dfs(i, j, heights, toPacific);
                 }
                 if (i == m - 1 || j == n - 1) {
-                    toAtlantic[i][j] = true;
+                    if (!toAtlantic[i][j])  dfs(i, j, heights, toAtlantic);
                 }
             }
         }
-
-        bfs(heights, toPacific);
-        bfs(heights, toAtlantic);
 
         List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i < m; i++) {
@@ -32,24 +29,14 @@ class Solution {
         return res;
     }
 
-    private void bfs(int[][] heights, boolean[][] flow) {
-        Queue<int[]> q = new LinkedList<>();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (flow[i][j]) q.offer(new int[]{i, j});
-            }
-        }
-
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            for (int[] dir : dirs) {
-                int r = dir[0] + cur[0];
-                int c = dir[1] + cur[1];
-                if (r < 0 || r >= m || c < 0 || c >= n || 
-                    flow[r][c] || heights[r][c] < heights[cur[0]][cur[1]]) continue;
-                flow[r][c] = true;
-                q.offer(new int[]{r, c});
-            }
+    private void dfs(int i, int j, int[][] heights, boolean[][] flow) {
+        flow[i][j] = true;
+        for (int[] dir : dirs) {
+            int r = dir[0] + i;
+            int c = dir[1] + j;
+            if (r < 0 || r >= m || c < 0 || c >= n || 
+                flow[r][c] || heights[r][c] < heights[i][j]) continue;
+            dfs(r, c, heights, flow);
         }
     }
 }
