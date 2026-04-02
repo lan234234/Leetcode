@@ -1,11 +1,11 @@
 class Solution {
     List<List<Integer>> graph;
+    int[] order;
+    int index;
 
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        int[] degree = new int[numCourses];
-        Queue<Integer> q = new LinkedList<>();
-        int[] order = new int[numCourses];
-        int index = 0;
+        order = new int[numCourses];
+        index = numCourses - 1;
         graph = new ArrayList<>();
         for (int i = 0; i < numCourses; i++) {
             graph.add(new ArrayList<>());
@@ -13,21 +13,30 @@ class Solution {
 
         for (int[] pre : prerequisites) {
             graph.get(pre[1]).add(pre[0]);
-            degree[pre[0]]++;
         }
 
+        boolean[] visited = new boolean[numCourses];
+        boolean[] inPath = new boolean[numCourses];
         for (int i = 0; i < numCourses; i++) {
-            if (degree[i] == 0) q.offer(i);
-        }
-
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            order[index++] = cur;
-            for (int nei : graph.get(cur)) {
-                degree[nei]--;
-                if (degree[nei] == 0)   q.offer(nei);
+            if (!visited[i]) {
+                if (!isValid(i, visited, inPath))   return new int[0];
             }
         }
-        return index == numCourses ? order : new int[0];
+        
+        return order;
+    }
+
+    private boolean isValid(int cur, boolean[] visited, boolean[] inPath) {
+        if (inPath[cur])    return false;
+        if(visited[cur])    return true;
+
+        inPath[cur] = true;
+        for (int nei : graph.get(cur)) {
+            if (!isValid(nei, visited, inPath)) return false;
+        }
+        visited[cur] = true;
+        order[index--] = cur;
+        inPath[cur] = false;
+        return true;
     }
 }
