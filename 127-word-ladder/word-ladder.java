@@ -1,34 +1,43 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if (beginWord.equals(endWord))  return 1;
+        Map<String, List<String>> map = new HashMap<>();
+        for (String word : wordList) {
+            char[] arr = word.toCharArray();
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = '*';
+                String cur = new String(arr);
+                map.putIfAbsent(cur, new ArrayList<>());
+                map.get(cur).add(word);
+                arr[i] = word.charAt(i);
+            }
+        }
 
-        Set<String> dict = new HashSet<>(wordList);
-        if (!dict.contains(endWord))    return 0;
-
-        Set<String> visited = new HashSet<>();
         Queue<String> q = new LinkedList<>();
-        int count = 1;
+        Set<String> visited = new HashSet<>();
+        int step = 1;
         q.offer(beginWord);
+        visited.add(beginWord);
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
-                String cur = q.poll();
-                if (cur.equals(endWord))    return count;
-                char[] arr = cur.toCharArray();
+                String word = q.poll();
+                if (word.equals(endWord))    return step;
+                char[] arr = word.toCharArray();
                 for (int j = 0; j < arr.length; j++) {
-                    char curC = arr[j];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == curC)    continue;
-                        arr[j] = c;
-                        String next = new String(arr);
-                        if (!dict.contains(next) || visited.contains(next))   continue;
-                        visited.add(next);
-                        q.offer(next);
+                    arr[j] = '*';
+                    List<String> next = map.get(new String(arr));
+                    if (next != null) {
+                        for (String cur : next) {
+                            if (visited.contains(cur))   continue;
+                            q.offer(cur);
+                            visited.add(cur);
+                        }
                     }
-                    arr[j] = curC;
+                    
+                    arr[j] = word.charAt(j);
                 }
             }
-            count++;
+            step++;
         }
         return 0;
     }
