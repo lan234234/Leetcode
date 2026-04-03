@@ -4,7 +4,6 @@ class Solution {
         int[] bitMasks = new int[n];
         int max = 0;
 
-        Arrays.sort(words, (a, b) -> Integer.compare(b.length(), a.length()));
         for (int i = 0; i < n; i++) {
             bitMasks[i] = toBitMask(words[i]);
         }
