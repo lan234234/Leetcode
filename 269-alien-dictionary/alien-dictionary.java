@@ -1,55 +1,55 @@
 class Solution {
     public String alienOrder(String[] words) {
-        int[] degree = new int[26];
-        List<List<Integer>> graph = new ArrayList<>();
-        int count = 0;
-        for (int i = 0; i < 26; i++) {
-            degree[i] = -1;
-            graph.add(new ArrayList<>());
-        }
-
-        // 1. get all letters
+        // Step 0: Create data structures and find all unique letters.
+        Map<Character, List<Character>> adjList = new HashMap<>();
+        Map<Character, Integer> counts = new HashMap<>();
         for (String word : words) {
-            for (int i = 0; i < word.length(); i++) {
-                int index = word.charAt(i) - 'a';
-                if (degree[index] == -1) {
-                    degree[index] = 0;
-                    count++;
-                }    
+            for (char c : word.toCharArray()) {
+                counts.put(c, 0);
+                adjList.put(c, new ArrayList<>());
             }
         }
 
-        // 2. construct graph
+        // Step 1: Find all edges.
         for (int i = 0; i < words.length - 1; i++) {
-            String s1 = words[i];
-            String s2 = words[i + 1];
-            if (s2.length() < s1.length() && s1.startsWith(s2))   return "";
-            for (int j = 0; j < s1.length() && j < s2.length(); j++) {
-                char c1 = s1.charAt(j);
-                char c2 = s2.charAt(j);
-                if (c1 != c2) {
-                    graph.get(c1 - 'a').add(c2 - 'a');
-                    degree[c2 - 'a']++;
+            String word1 = words[i];
+            String word2 = words[i + 1];
+            // Check that word2 is not a prefix of word1.
+            if (word1.length() > word2.length() && word1.startsWith(word2)) {
+                return "";
+            }
+            // Find the first non match and insert the corresponding relation.
+            for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
+                if (word1.charAt(j) != word2.charAt(j)) {
+                    adjList.get(word1.charAt(j)).add(word2.charAt(j));
+                    counts.put(word2.charAt(j), counts.get(word2.charAt(j)) + 1);
                     break;
                 }
             }
         }
 
-        // 3. bfs
+        // Step 2: Breadth-first search.
         StringBuilder sb = new StringBuilder();
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < 26; i++) {
-            if (degree[i] == 0) q.offer(i);
-        }
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            sb.append((char) (cur + 'a'));
-            for (int nei : graph.get(cur)) {
-                degree[nei]--;
-                if (degree[nei] == 0)   q.offer(nei);
+        Queue<Character> queue = new LinkedList<>();
+        for (Character c : counts.keySet()) {
+            if (counts.get(c).equals(0)) {
+                queue.add(c);
             }
         }
-        
-        return count == sb.length() ? sb.toString() : "";
+        while (!queue.isEmpty()) {
+            Character c = queue.remove();
+            sb.append(c);
+            for (Character next : adjList.get(c)) {
+                counts.put(next, counts.get(next) - 1);
+                if (counts.get(next).equals(0)) {
+                    queue.add(next);
+                }
+            }
+        }
+
+        if (sb.length() < counts.size()) {
+            return "";
+        }
+        return sb.toString();
     }
 }
