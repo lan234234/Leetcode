@@ -1,52 +1,63 @@
 class MyCircularDeque {
-    int[] arr;
-	int first;
-	int last;
+    Node head;
+	Node tail;
 	int size;
+	int capacity;
 
     public MyCircularDeque(int k) {
-        arr = new int[k];
-		first = 0;
-		last = k -1;
-		size = 0;
+        head = new Node(-1);
+		tail = new Node(-1);
+		head.next = tail;
+		tail.pre = head;
+		this.capacity = k;
     }
     
     public boolean insertFront(int value) {
         if (isFull())	return false;
-		first = (first - 1 + arr.length) % arr.length;
-		arr[first] = value;
+		Node node = new Node(value);
+		node.next = head.next;
+		node.next.pre = node;
+		node.pre = head;
+		head.next = node;
 		size++;
 		return true;
     }
     
     public boolean insertLast(int value) {
         if (isFull())	return false;
-		last = (last + 1) % arr.length;
-		arr[last] = value;
+		Node node = new Node(value);
+		node.pre = tail.pre;
+		node.next = tail;
+		tail.pre.next = node;
+		tail.pre = node;
 		size++;
 		return true;
     }
     
     public boolean deleteFront() {
         if (isEmpty())	return false;
-		first = (first + 1) % arr.length;
 		size--;
+		Node node = head.next;
+		head.next = node.next;
+		node.next.pre = head;
 		return true;
     }
     
     public boolean deleteLast() {
         if (isEmpty())	return false;
-		last = (last - 1 + arr.length) % arr.length;
 		size--;
+		Node node = tail.pre;
+		node.pre.next = tail;
+		tail.pre = node.pre;
 		return true;
     }
     
     public int getFront() {
-        return isEmpty() ? -1 : arr[first];
+        return isEmpty() ? -1 : head.next.val;
     }
     
     public int getRear() {
-        return isEmpty() ? -1 : arr[last];
+        return isEmpty() ? -1 : tail.pre.val;
     }
     
     public boolean isEmpty() {
@@ -54,8 +65,19 @@ class MyCircularDeque {
     }
     
     public boolean isFull() {
-        return size == arr.length;
+        return size == capacity;
     }
+
+    class Node {
+        int val;
+        Node next;
+        Node pre;
+        
+        public Node(int val) {
+            this.val = val;
+        }
+    }
+
 }
 
 /**
