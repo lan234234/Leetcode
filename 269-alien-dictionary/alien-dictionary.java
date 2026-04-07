@@ -1,13 +1,12 @@
 class Solution {
     Map<Character, List<Character>> map;
+    StringBuilder sb;
     public String alienOrder(String[] words) {
         map = new HashMap<>();
-        Map<Character, Integer> degree = new HashMap<>();
         for (String word : words) {
             for (int i = 0; i < word.length(); i++) {
                 char c = word.charAt(i);
                 map.putIfAbsent(c, new ArrayList<>());
-                degree.putIfAbsent(c, 0);
             }
         }
 
@@ -20,31 +19,33 @@ class Solution {
                 char c2 = s2.charAt(j);
                 if (c1 != c2) {
                     map.get(c1).add(c2);
-                    degree.put(c2, degree.get(c2) + 1);
                     break;
                 }
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        Queue<Character> q = new LinkedList<>();
-        for (Map.Entry<Character, Integer> entry : degree.entrySet()) {
-            if (entry.getValue() == 0) {
-                q.offer(entry.getKey());
-            }
+        sb = new StringBuilder();
+        boolean[] visited = new boolean[26];
+        boolean[] inPath = new boolean[26];
+        for (char key : map.keySet()) {
+            if (!isValid(key, visited, inPath)) return "";
         }
+        
+        return sb.reverse().toString();
+    }
 
-        while (!q.isEmpty()) {
-            Character cur = q.poll();
-            sb.append(cur);
-            for (char nei : map.get(cur)) {
-                int deg = degree.get(nei) - 1;
-                if (deg == 0) {
-                    q.offer(nei);
-                }
-                degree.put(nei, deg);
-            }
+    private boolean isValid(char c, boolean[] visited, boolean[] inPath) {
+        int index = c - 'a';
+        if (inPath[index])  return false;
+        if (visited[index]) return true;
+
+        inPath[index] = true;
+        for (char nei : map.get(c)) {
+            if (!isValid(nei, visited, inPath)) return false;
         }
-        return sb.length() == degree.size() ? sb.toString() : "";
+        visited[index] = true;
+        sb.append(c);
+        inPath[index] = false;
+        return true;
     }
 }
