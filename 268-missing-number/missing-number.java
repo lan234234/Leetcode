@@ -1,13 +1,14 @@
 class Solution {
     public int missingNumber(int[] nums) {
         int n = nums.length;
-        boolean[] exist = new boolean[n + 1];
-        for (int num : nums) {
-            exist[num] = true;
-        }
+        int sum = 0;
         for (int i = 0; i <= n; i++) {
-            if (!exist[i])    return i;
+            sum += i;
         }
-        return -1;
+
+        for (int num : nums) {
+            sum -= num;
+        }
+        return sum;
     }
 }
