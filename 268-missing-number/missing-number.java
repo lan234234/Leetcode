@@ -1,14 +1,14 @@
 class Solution {
     public int missingNumber(int[] nums) {
         int n = nums.length;
-        int sum = 0;
-        for (int i = 0; i <= n; i++) {
-            sum += i;
+        int bit = 0;
+        for (int i = 1; i <= n; i++) {
+            bit ^= i;
         }
 
         for (int num : nums) {
-            sum -= num;
+            bit ^= num;
         }
-        return sum;
+        return bit;
     }
 }
