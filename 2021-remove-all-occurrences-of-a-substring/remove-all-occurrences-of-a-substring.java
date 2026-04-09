@@ -1,47 +1,88 @@
 class Solution {
+
     public String removeOccurrences(String s, String part) {
-        char[] arr = s.toCharArray();
-        int[] lps = new int[part.length()];
+        // Precompute KMP longest prefix-suffix array for the pattern
+        int[] kmpLPS = computeLongestPrefixSuffix(part);
 
-        // 1. construct lps
-        int i = 0;
-        for (int j = 1; j < part.length(); j++) {
-            if (part.charAt(i) == part.charAt(j)) {
-                lps[j] = ++i;
-            } else if (i != 0) {
-                i = lps[i - 1];
-                j--;
+        // Using stack to track characters and support pattern matching
+        Stack<Character> charStack = new Stack<>();
+
+        // Array to store pattern matching indices during traversal
+        int[] patternIndexes = new int[s.length() + 1];
+
+        for (
+            int strIndex = 0, patternIndex = 0;
+            strIndex < s.length();
+            strIndex++
+        ) {
+            char currentChar = s.charAt(strIndex);
+            charStack.push(currentChar);
+
+            if (currentChar == part.charAt(patternIndex)) {
+                // Track the next pattern index when characters match
+                patternIndexes[charStack.size()] = ++patternIndex;
+
+                if (patternIndex == part.length()) {
+                    // Remove entire matched pattern from stack
+                    int remainingLength = part.length();
+                    while (remainingLength != 0) {
+                        charStack.pop();
+                        remainingLength--;
+                    }
+
+                    // Restore pattern index for next potential match
+                    patternIndex = charStack.isEmpty()
+                        ? 0
+                        : patternIndexes[charStack.size()];
+                }
+            } else {
+                if (patternIndex != 0) {
+                    // Backtrack pattern matching using KMP LPS
+                    strIndex--;
+                    patternIndex = kmpLPS[patternIndex - 1];
+                    charStack.pop();
+                } else {
+                    // Reset pattern index tracking when no match is possible
+                    patternIndexes[charStack.size()] = 0;
+                }
             }
         }
 
-        int index = -1;
-        int len = s.length();
-        while ((index = findFirst(arr, lps, part, len)) != -1) {
-            remove(arr, index, index + part.length(), len);
-            len -= part.length();
+        // Convert remaining stack characters to result string
+        StringBuilder result = new StringBuilder();
+        while (!charStack.isEmpty()) {
+            result.append(charStack.pop());
         }
-        return new String(arr, 0, len);
+
+        return result.reverse().toString();
     }
 
-    private void remove(char[] arr, int i, int j, int n) {
-        while (j < n) {
-            arr[i++] = arr[j++];
-        }
-    }
+    private int[] computeLongestPrefixSuffix(String pattern) {
+        // Array to store the longest proper prefix which is also a suffix
+        int[] lps = new int[pattern.length()];
 
-    private int findFirst(char[] arr, int[] lps, String part, int n) {
-        if (arr.length < part.length()) return -1;
-
-        int i = 0;
-        for(int j = 0; j < n; j++) {
-            if (arr[j] == part.charAt(i)) {
-                i++;
-                if (i == part.length()) return j - i + 1;
-            } else if (i != 0) {
-                i = lps[i - 1];
-                j--;
+        // Initialize tracking variables for prefix and current position
+        for (int current = 1, prefixLength = 0; current < pattern.length();) {
+            // If characters match, extend the prefix length
+            if (pattern.charAt(current) == pattern.charAt(prefixLength)) {
+                // Store the length of matching prefix
+                lps[current] = ++prefixLength;
+                current++;
+            }
+            // If characters don't match and we're not at the start of the pattern
+            else if (prefixLength != 0) {
+                // Backtrack to the previous longest prefix-suffix
+                prefixLength = lps[prefixLength - 1];
+            }
+            // If no match and no prefix to backtrack
+            else {
+                // No prefix-suffix match found
+                lps[current] = 0;
+                current++;
             }
         }
-        return -1;
+
+        // Return the computed longest prefix-suffix array
+        return lps;
     }
 }
