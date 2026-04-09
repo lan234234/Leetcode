@@ -1,32 +1,36 @@
 class Solution {
     public String reformat(String s) {
-        List<Character> digs = new ArrayList<>();
-        List<Character> letts = new ArrayList<>();
 
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c > '9') {
-                letts.add(c);
+        int len = s.length();
+        char[] sArr = s.toCharArray();
+        char[] letters = new char[len];
+        char[] numbers = new char [len];
+        int lCounter = 0;
+        int nCounter = 0;
+
+        for (char  ch : sArr) {
+            if (Character.isDigit(ch)) {
+                numbers[nCounter++] = ch;
             } else {
-                digs.add(c);
+                letters[lCounter++] = ch;
             }
         }
 
-        if (Math.abs(digs.size() - letts.size()) > 1)   return "";
+        if (Math.abs(lCounter - nCounter) > 1) {
+            return "";
+        }
+        
+        boolean letterTurn = lCounter >= nCounter;
+        
+        for (int i = 0; i < len; i++) {
+            if (letterTurn) {
+                sArr[i] = letters[--lCounter];
+            } else {
+                sArr[i] = numbers[--nCounter];
+            }
+            letterTurn = !letterTurn;
+        }
 
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        int j = 0;
-        if (digs.size() < letts.size()) {
-            sb.append(letts.get(j++));
-        }
-        while (j < letts.size()) {
-            sb.append(digs.get(i++));
-            sb.append(letts.get(j++));
-        }
-        if (i < digs.size()) {
-            sb.append(digs.get(i));
-        }
-        return sb.toString();
+        return new String(sArr);
     }
 }
