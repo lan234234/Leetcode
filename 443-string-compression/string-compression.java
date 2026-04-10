@@ -10,7 +10,7 @@ class Solution {
                 chars[i++] = chars[start];
                 int count = j - start;
                 if (count > 1) {
-                    String sCount = count + "";
+                    String sCount = Integer.toString(count);
                     for (int k = 0; k < sCount.length(); k++) {
                         chars[i++] = sCount.charAt(k);
                     }
