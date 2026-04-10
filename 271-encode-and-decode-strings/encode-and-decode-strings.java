@@ -4,14 +4,9 @@ public class Codec {
     public String encode(List<String> strs) {
         StringBuilder sb = new StringBuilder();
         for (String s : strs) {
-            for (int i = 0; i < s.length(); i++) {
-                char c = s.charAt(i);
-                if (c == '/' || c == '#') {
-                    sb.append('/');
-                }
-                sb.append(c);
-            }
-            sb.append('#');
+            sb.append(s.length());
+            sb.append('/');
+            sb.append(s);
         }
         return sb.toString();
     }
@@ -19,17 +14,17 @@ public class Codec {
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
         List<String> res = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '/') {
-                sb.append(s.charAt(++i));
-            } else if (c == '#') {
-                res.add(sb.toString());
-                sb = new StringBuilder();
-            } else {
-                sb.append(c);
+        int i = 0;
+        int num = 0;
+        while (i < s.length()) {
+            while (s.charAt(i) != '/') {
+                num = num * 10 + s.charAt(i) - '0';
+                i++;
             }
+            i++;
+            res.add(s.substring(i, i + num));
+            i += num;
+            num = 0;
         }
         return res;
     }
