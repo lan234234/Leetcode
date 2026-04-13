@@ -4,26 +4,31 @@ public class Codec {
     public String encode(List<String> strs) {
         StringBuilder sb = new StringBuilder();
         for (String s : strs) {
-            sb.append(s.length());
-            sb.append('*');
-            sb.append(s);
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (s.charAt(i) == '/' || c == '#') {
+                    sb.append('/');
+                }
+                sb.append(c);
+            }
+            sb.append('#');
         }
         return sb.toString();
     }
 
     // Decodes a single string to a list of strings.
-    // "5*Hello5*World"
-    //   
     public List<String> decode(String s) {
         List<String> res = new ArrayList<>();
-        int num = 0;
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != '*') {
-                num = num * 10 + s.charAt(i) - '0';
+            char c = s.charAt(i);
+            if (c == '/') {
+                sb.append(s.charAt(++i));
+            } else if (c == '#') {
+                res.add(sb.toString());
+                sb = new StringBuilder();
             } else {
-                res.add(s.substring(i + 1, i + 1 + num));
-                i += num;
-                num = 0;
+                sb.append(c);
             }
         }
         return res;
