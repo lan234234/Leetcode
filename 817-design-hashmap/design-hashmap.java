@@ -14,11 +14,9 @@ class MyHashMap {
 
     private static final int CAPACITY = 10000;
     private Node[] arr;
-    private int size;
 
     public MyHashMap() {
         arr = new Node[CAPACITY];
-        size = 0;
     }
     
     public void put(int key, int value) {
