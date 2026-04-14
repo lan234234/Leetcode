@@ -1,1 +1,1 @@
-<h2>find-all-anagrams-in-a-string Notes</h2><hr>[ Time taken: 10m 13s ]
+<h2>find-all-anagrams-in-a-string Notes</h2><hr>[ Time taken: 8m 58s ]
