@@ -8,17 +8,17 @@ class MyHashMap {
         Node(int key, int val) {
             this.key = key;
             this.val = val;
+            this.next = null;
         }
     }
 
-    private static final int DEFAULT_CAPACITY = 1000001;
-    Node[] arr;
-    int size;
-
+    private static final int CAPACITY = 10000;
+    private Node[] arr;
+    private int size;
 
     public MyHashMap() {
-        arr = new Node[DEFAULT_CAPACITY];
-        this.size = 0;
+        arr = new Node[CAPACITY];
+        size = 0;
     }
     
     public void put(int key, int value) {
@@ -48,14 +48,15 @@ class MyHashMap {
     
     public void remove(int key) {
         int index = getIndex(key);
-        Node dummy = new Node(-1, -1);
-        dummy.next = arr[index];
-        Node pre = dummy;
         Node node = arr[index];
+        Node dummy = new Node(-1, -1);
+        dummy.next = node;
+        Node pre = dummy;
         while (node != null) {
             if (node.key == key) {
                 pre.next = node.next;
                 arr[index] = dummy.next;
+                return;
             }
             pre = node;
             node = node.next;
@@ -63,7 +64,7 @@ class MyHashMap {
     }
 
     private int getIndex(int key) {
-        return key % DEFAULT_CAPACITY;
+        return key / CAPACITY;
     }
 }
 
