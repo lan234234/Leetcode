@@ -1,16 +1,12 @@
 class Solution {
     public int maxProduct(String[] words) {
-        int n = words.length;
-        int[] bitMasks = new int[n];
         int max = 0;
-
-        for (int i = 0; i < n; i++) {
-            bitMasks[i] = toBitMask(words[i]);
-        }
-
-        for (int i = 0; i < n; i++) {
+        int n = words.length;
+        for (int i = 0; i < n - 1; i++) {
+            int bit = getBit(words[i]);
             for (int j = i + 1; j < n; j++) {
-                if ((bitMasks[i] & bitMasks[j]) == 0) {
+                int curBit = getBit(words[j]);
+                if ((bit & curBit) == 0) {
                     max = Math.max(max, words[i].length() * words[j].length());
                 }
             }
@@ -18,11 +14,10 @@ class Solution {
         return max;
     }
 
-    private int toBitMask(String s) {
+    private int getBit(String s) {
         int res = 0;
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            res |= (1 << (c - 'a'));
+            res |= (1 << (s.charAt(i) - 'a'));
         }
         return res;
     }
