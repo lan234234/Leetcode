@@ -11,24 +11,43 @@ class Solution {
     assume begin.length() == end.length()
     
     bfs:
-    dicts -> set
-    visited set
-    "aa" -> "?a" (26 possible)
-         -> "a?" (26 possible) -> "ab" "ac"
+    dicts -> Map<String, List<String>> key: "*b"
     
-    TC: dicts.size() * l * 26
+    "ab" -> "*b"
+            "a*"
+    
+    TC: dicts.size() * l + dicts.size() * l
     SC: dicts.size()
 
      */
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> set = new HashSet<>(wordList);
-
         // corner case
-        if (!set.contains(endWord)) return 0;
+        boolean found = false;
+        for (String s : wordList) {
+            if (s.equals(endWord)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return 0;
+
+        Map<String, List<String>> map = new HashMap<>();
+        for (String s: wordList) {
+            char[] arr = s.toCharArray();
+            for (int i = 0; i < arr.length; i++) {
+                char c = arr[i];
+                arr[i] = '*';
+                String cur = new String(arr);
+                map.putIfAbsent(cur, new ArrayList<>());
+                map.get(cur).add(s);
+                arr[i] = c;
+            }
+        }
 
         Queue<String> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
         q.offer(beginWord);
-        set.remove(beginWord);
+        visited.add(beginWord);
         int step = 1;
 
         while (!q.isEmpty()) {
@@ -39,15 +58,13 @@ class Solution {
                 char[] arr = s.toCharArray();
                 for (int j = 0; j < arr.length; j++) {
                     char c = arr[j];
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
-                        if (ch != c) {
-                            arr[j] = ch;
-                            String cur = new String(arr);
-                            if (set.contains(cur)) {
-                                q.offer(cur);
-                                set.remove(cur);
-                            }
-                        } 
+                    arr[j] = '*';
+                    String cur = new String(arr);
+                    for (String nei : map.getOrDefault(cur, new ArrayList<>())) {
+                        if (!visited.contains(nei)) {
+                            q.offer(nei);
+                            visited.add(nei);
+                        }
                     }
                     arr[j] = c;
                 }
