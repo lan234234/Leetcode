@@ -8,24 +8,13 @@ class Solution {
 
         for (int num : nums) {
             if (left.containsKey(num))  continue;
-            int leftBound = Math.min(find(num - 1, left, true, right), num);
-            int rightBound = Math.max(find(num + 1, right, false, left), num);
-            left.put(num, leftBound);
-            right.put(num, rightBound);
+            int leftBound = left.containsKey(num - 1) ? left.get(num - 1) : num;
+            int rightBound = right.containsKey(num + 1) ? right.get(num + 1) : num;
+            left.put(rightBound, leftBound);
+            right.put(leftBound, rightBound);
             longest = Math.max(longest, rightBound - leftBound + 1);
+            if (!left.containsKey(num)) left.put(num, 0);
         }
         return longest;
-    }
-
-    private int find(int num, Map<Integer, Integer> map, boolean findLeft, Map<Integer, Integer> map2) {
-        Integer res = map.get(num);
-        if (res == null)  return findLeft ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-        if (res != num) {
-            res = find(res, map, findLeft, map2);
-            map.put(num, res);
-        }
-        int bound = map2.get(res);
-        map2.put(res, findLeft ? Math.max(bound, num + 1) : Math.min(bound, num - 1));
-        return res;
     }
 }
