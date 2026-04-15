@@ -1,40 +1,56 @@
 class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Map<String, List<String>> map = new HashMap<>();
-        for (String word : wordList) {
-            char[] arr = word.toCharArray();
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = '*';
-                String cur = new String(arr);
-                map.putIfAbsent(cur, new ArrayList<>());
-                map.get(cur).add(word);
-                arr[i] = word.charAt(i);
-            }
-        }
+    /**
+    input                                               output
+    String begin    String end  List<String> dicts      int num
+    "aa"            "ac"        "ab"                    0
+    "aa"            "ac"        "ac"                    2
+    "aa"            "bb"        "ab","bb","ac"          3
+    
+    assume neither begin nor end is null or empty
+    assume dicts is null or empty
+    assume begin.length() == end.length()
+    
+    bfs:
+    dicts -> set
+    visited set
+    "aa" -> "?a" (26 possible)
+         -> "a?" (26 possible) -> "ab" "ac"
+    
+    TC: dicts.size() * l * 26
+    SC: dicts.size()
 
-        Queue<String> q = new LinkedList<>();
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> set = new HashSet<>(wordList);
+
+        // corner case
+        if (!set.contains(endWord)) return 0;
+
         Set<String> visited = new HashSet<>();
-        int step = 1;
+        Queue<String> q = new LinkedList<>();
         q.offer(beginWord);
         visited.add(beginWord);
+        int step = 1;
+
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
-                String word = q.poll();
-                if (word.equals(endWord))    return step;
-                char[] arr = word.toCharArray();
+                String s = q.poll();
+                if (s.equals(endWord))  return step;
+                char[] arr = s.toCharArray();
                 for (int j = 0; j < arr.length; j++) {
-                    arr[j] = '*';
-                    List<String> next = map.get(new String(arr));
-                    if (next != null) {
-                        for (String cur : next) {
-                            if (visited.contains(cur))   continue;
-                            q.offer(cur);
-                            visited.add(cur);
-                        }
+                    char c = arr[j];
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        if (ch != c) {
+                            arr[j] = ch;
+                            String cur = new String(arr);
+                            if (set.contains(cur) && !visited.contains(cur)) {
+                                q.offer(cur);
+                                visited.add(cur);
+                            }
+                        } 
                     }
-                    
-                    arr[j] = word.charAt(j);
+                    arr[j] = c;
                 }
             }
             step++;
