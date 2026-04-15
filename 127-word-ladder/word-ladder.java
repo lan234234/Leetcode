@@ -26,10 +26,9 @@ class Solution {
         // corner case
         if (!set.contains(endWord)) return 0;
 
-        Set<String> visited = new HashSet<>();
         Queue<String> q = new LinkedList<>();
         q.offer(beginWord);
-        visited.add(beginWord);
+        set.remove(beginWord);
         int step = 1;
 
         while (!q.isEmpty()) {
@@ -44,9 +43,9 @@ class Solution {
                         if (ch != c) {
                             arr[j] = ch;
                             String cur = new String(arr);
-                            if (set.contains(cur) && !visited.contains(cur)) {
+                            if (set.contains(cur)) {
                                 q.offer(cur);
-                                visited.add(cur);
+                                set.remove(cur);
                             }
                         } 
                     }
