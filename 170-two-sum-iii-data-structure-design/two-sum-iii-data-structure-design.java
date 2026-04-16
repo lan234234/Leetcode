@@ -1,8 +1,10 @@
 class TwoSum {
     Map<Integer, Integer> freq;
+    Set<Integer> sum;
 
     public TwoSum() {
         freq = new HashMap<>();
+        sum = new HashSet<>();
     }
     
     public void add(int number) {
@@ -10,11 +12,13 @@ class TwoSum {
     }
     
     public boolean find(int value) {
+        if (sum.contains(value))    return true;
         for (int key : freq.keySet()) {
-            if (2 * key == value) {
-                if (freq.get(key) > 1)  return true;
-            } else if (freq.containsKey(value - key)) {
-                return true;
+            if (freq.containsKey(value - key)) {
+                if (value != 2 * key || freq.get(key) > 1) {
+                    sum.add(value);
+                    return true;
+                }
             }
         }
         return false;
