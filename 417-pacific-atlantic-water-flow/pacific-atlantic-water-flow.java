@@ -10,26 +10,19 @@ class Solution {
         this.heights = heights;
         boolean[][] toPacific = new boolean[m][n];
         boolean[][] toAtlantic = new boolean[m][n];
-        Queue<int[]> pacificQ = new LinkedList<>();
-        Queue<int[]> atlanticQ = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
         dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
         for (int r = 0; r < m; r++) {
             for (int c = 0; c < n; c++) {
                 if (r == 0 || c == 0) {
-                    toPacific[r][c] = true;
-                    pacificQ.offer(new int[]{r, c});
+                    dfs(r, c, toPacific);
                 }
                 if (r == m - 1 || c == n - 1) {
-                    toAtlantic[r][c] = true;
-                    atlanticQ.offer(new int[]{r, c});
+                    dfs(r, c, toAtlantic);
                 }
             }
         }
-
-        bfs(pacificQ, toPacific);
-        bfs(atlanticQ, toAtlantic);
 
         for (int r = 0; r < m; r++) {
             for (int c = 0; c < n; c++) {
@@ -41,16 +34,14 @@ class Solution {
         return res;
     }
 
-    private void bfs(Queue<int[]> q, boolean[][] flow) {
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            for (int[] dir : dirs) {
-                int r = cur[0] + dir[0];
-                int c = cur[1] + dir[1];
-                if (r >= 0 && r < m && c >= 0 && c < n && !flow[r][c] && heights[r][c] >= heights[cur[0]][cur[1]]) {
-                    q.offer(new int[]{r, c});
-                    flow[r][c] = true;
-                }
+    private void dfs(int r, int c, boolean[][] flow) {
+        flow[r][c] = true;
+
+        for (int[] dir : dirs) {
+            int i = r + dir[0];
+            int j = c + dir[1];
+            if (i >= 0 && i < m && j >= 0 && j < n && !flow[i][j] && heights[i][j] >= heights[r][c]) {
+                dfs(i, j, flow);
             }
         }
     }
