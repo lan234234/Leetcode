@@ -5,29 +5,22 @@ class Solution {
             count[s]++;
         }
 
-        int cur = 0;
-        int i = count.length - 1;
-        while (i > 0) {
-            if (i == 8) {
-                int a = 1;
-            }
-            if (count[i] == 0) {
-                i--;
-                continue;
-            }
-            if (cur == 0) {
-                cur = i;
+        int rem = 0;
+        for (int i = count.length - 1; i > 0 ; i--) {
+            if (count[i] == 0)  continue;
+            if (rem == 0) {
+                count[i] %= 2;
+                rem = count[i] == 0 ? 0 : i;
             } else {
-                int rem = cur - i;
-                if (rem > i) {
-                    cur = rem;
-                } else {
+                count[i]--;
+                rem -= i;
+                if (rem <= i) {
                     count[rem]++;
-                    cur = 0;
+                    rem = 0;
                 }
+                i++;
             }
-            count[i]--;
         }
-        return cur; 
+        return rem; 
     }
 }
