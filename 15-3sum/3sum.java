@@ -7,6 +7,7 @@ class Solution {
         for (int i = 0; i + 2 < nums.length; i++) {
             if (i != 0 && nums[i] == nums[i - 1])   continue;
             int target = -nums[i];
+            if (target < 0) break;    
             int j = i + 1;
             int k = nums.length - 1;
             while (j < k) {
