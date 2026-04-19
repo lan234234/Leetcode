@@ -5,9 +5,8 @@ class Solution {
         
         Arrays.sort(nums);
         for (int i = 0; i + 2 < nums.length; i++) {
-            if (i != 0 && nums[i] == nums[i - 1])   continue;
-            int target = -nums[i];
-            if (target < 0) break;    
+            if (nums[i] > 0)    break;
+            if (i != 0 && nums[i] == nums[i - 1])   continue;   
             int j = i + 1;
             int k = nums.length - 1;
             while (j < k) {
@@ -15,12 +14,12 @@ class Solution {
                     j++;
                     continue;
                 }
-                int sum = nums[j] + nums[k];
-                if (sum == target) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == 0) {
                     res.add(List.of(nums[i], nums[j], nums[k]));
                     j++;
                     k--;
-                } else if (sum > target) {
+                } else if (sum > 0) {
                     k--;
                 } else {
                     j++;
