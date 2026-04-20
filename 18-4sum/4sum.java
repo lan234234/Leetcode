@@ -1,36 +1,53 @@
 class Solution {
+    List<List<Integer>> res;
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> res = new ArrayList<>();
+        res = new ArrayList<>();
         int n = nums.length;
         Arrays.sort(nums);
 
-        for (int i = 0; i + 3 < n; i++) {
-            if (i != 0 && nums[i] == nums[i - 1])   continue;
-            for (int j = i + 1; j + 2 < n; j++) {
-                if (j != i + 1 && nums[j] == nums[j - 1])   continue;
-                int k = j + 1;
-                long sum = (long) nums[i] + nums[j];
-                if (sum + nums[k] + nums[k + 1] > target) break;
+        kSum(nums, 0, target, 4, new ArrayList<>());
+        return res;
+    }
 
-                int l = n - 1;
-                while (k < l) {
-                    if (k != j + 1 && nums[k] == nums[k - 1]) {
-                        k++;
-                        continue;
-                    }
-                    long curSum = sum + nums[k] + nums[l];
-                    if (curSum == target) {
-                        res.add(List.of(nums[i], nums[j], nums[k], nums[l]));
-                        k++;
-                        l--;
-                    } else if (curSum > target) {
-                        l--;
-                    } else {
-                        k++;
-                    }
-                }
+    private void kSum(int[] nums, int start, long target, int k, List<Integer> cur) {
+        if (nums.length - start < k)    return;
+        if (k == 2) {
+            twoSum(nums, start, target, cur);
+            return;
+        }
+
+        for (int i = start; i + k - 1 < nums.length; i++) {
+            if (i != start && nums[i] == nums[i - 1])   continue;
+            cur.add(nums[i]);
+            kSum(nums, i + 1, target - nums[i], k - 1, cur);
+            cur.remove(cur.size() - 1);
+        }
+    }
+
+    private void twoSum(int[] nums, int start, long target, List<Integer> cur) {
+        if (nums[start] + nums[start + 1] > target)   return;
+
+        int left = start;
+        int right = nums.length - 1;
+        while (left < right) {
+            if (left != start && nums[left] == nums[left - 1]) {
+                left++;
+                continue;
+            }
+            long sum = nums[left] + nums[right];
+            if (sum == target) {
+                cur.add(nums[left]);
+                cur.add(nums[right]);
+                res.add(new ArrayList<>(cur));
+                cur.remove(cur.size() - 1);
+                cur.remove(cur.size() - 1);
+                left++;
+                right--;
+            } else if (sum > target) {
+                right--;
+            } else {
+                left++;
             }
         }
-        return res;
     }
 }
