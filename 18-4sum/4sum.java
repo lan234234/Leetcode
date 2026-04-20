@@ -1,30 +1,32 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
-        int n = nums.length;
         List<List<Integer>> res = new ArrayList<>();
+        int n = nums.length;
         Arrays.sort(nums);
-        for (int a = 0; a + 3 < n; a++) {
-            if (a != 0 && nums[a] == nums[a - 1])   continue;
-            for (int b = a + 1; b + 2 < n; b++) {
-                if (b != a + 1 && nums[b] == nums[b - 1])   continue;
-                int c = b + 1;
-                long minSum = (long) nums[a] + nums[b] + nums[c] + nums[c + 1];
-                if (minSum > target) break;
-                int d = n - 1;
-                while (c < d) {
-                    if (c != b + 1 && nums[c] == nums[c - 1]) {
-                        c++;
+
+        for (int i = 0; i + 3 < n; i++) {
+            if (i != 0 && nums[i] == nums[i - 1])   continue;
+            for (int j = i + 1; j + 2 < n; j++) {
+                if (j != i + 1 && nums[j] == nums[j - 1])   continue;
+                int k = j + 1;
+                long sum = (long) nums[i] + nums[j];
+                if (sum + nums[k] + nums[k + 1] > target) break;
+
+                int l = n - 1;
+                while (k < l) {
+                    if (k != j + 1 && nums[k] == nums[k - 1]) {
+                        k++;
                         continue;
                     }
-                    long sum = (long) nums[a] + nums[b] + nums[c] + nums[d];
-                    if (sum == target) {
-                        res.add(List.of(nums[a], nums[b], nums[c], nums[d]));
-                        c++;
-                        d--;
-                    } else if (sum < target) {
-                        c++;
+                    long curSum = sum + nums[k] + nums[l];
+                    if (curSum == target) {
+                        res.add(List.of(nums[i], nums[j], nums[k], nums[l]));
+                        k++;
+                        l--;
+                    } else if (curSum > target) {
+                        l--;
                     } else {
-                        d--;
+                        k++;
                     }
                 }
             }
