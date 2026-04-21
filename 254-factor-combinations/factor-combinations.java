@@ -1,52 +1,35 @@
-class Solution {
-    /**
-    12
-    factors: 2, 3, 4, 6
-           2                        3
-    2,2         2,3 2,4 2,6     3,3  3,4
-    2,2,2 2,2,3                 
-    
-    
-    
-     */
-    List<List<Integer>> res;
+public class Solution {
     public List<List<Integer>> getFactors(int n) {
-        res = new ArrayList<>();
-        List<Integer> factors = getAllFactors(n);
-        Collections.sort(factors);
-
-        if (n == 1) return res;
-        dfs(n, factors, 0, new ArrayList<>());
-        return res;
-    }
-
-    private void dfs(int num, List<Integer> factors, int index, List<Integer> cur) {
-        if (num == 1) {
-            res.add(new ArrayList<>(cur));
-            return;
+        List<List<Integer>> results = new ArrayList<>();
+        if (n <=3) {
+            return results;
         }
         
-        for (int i = index; i < factors.size(); i++) {
-            if (factors.get(i) > num)   break;
-            int f = factors.get(i);
-            if (num % f == 0) {
-                cur.add(f);
-                dfs(num / f, factors, i, cur);
-                cur.remove(cur.size() - 1);
-            }
-        }
+        getFactors(n, 2, new ArrayList<Integer>(), results);
+        return results;
     }
-
-    private List<Integer> getAllFactors(int num) {
-        List<Integer> factors = new ArrayList<>();
-        for (int i = 2; i * i <= num; i++) {
-            if (num % i == 0) {
-                factors.add(i);
-                if (i * i < num) {
-                    factors.add(num / i);
-                }
-            }
+    
+    private void getFactors(int n, int start, List<Integer> current, List<List<Integer>> results) {
+        if (n == 1) {
+        	if (current.size() > 1) {
+        		results.add(new ArrayList<Integer>(current));
+        	}
+            return;
         }
-        return factors;
+	        
+        
+        for (int i = start; i <= (int) Math.sqrt(n); i++) {  // ==> here, change 1
+            if (n % i != 0) {
+                continue;
+            }   
+            current.add(i);
+            getFactors(n/i, i, current, results);
+            current.remove(current.size()-1);
+        }
+        
+        int i = n; // ===> here, change 2
+        current.add(i);
+        getFactors(n/i, i, current, results);
+        current.remove(current.size()-1);
     }
 }
