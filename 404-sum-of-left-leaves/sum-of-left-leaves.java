@@ -15,23 +15,27 @@
  */
 class Solution {
     public int sumOfLeftLeaves(TreeNode root) {
-        int[] sum = new int[1];
-        helper(root, sum, false);
-        return sum[0];
-    }
+        if (root == null)   return 0;
 
-    private void helper(TreeNode root, int[] sum, boolean isLeftChild) {
-        if (root.left == null && root.right == null) {
-            if (isLeftChild) {
-                sum[0] += root.val;
+        int sum = 0;
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.offerFirst(root);
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pollFirst();
+
+            // check left leave
+            TreeNode left = cur.left;
+            if (left != null && left.left == null && left.right == null) {
+                sum += left.val;
             }
-            return;
-        } 
-        if (root.left != null) {
-            helper(root.left, sum, true);
+
+            if (cur.right != null) {
+                stack.offerFirst(cur.right);
+            }
+            if (left != null) {
+                stack.offerFirst(left);
+            }
         }
-        if (root.right != null) {
-            helper(root.right, sum, false);
-        }  
+        return sum;
     }
 }
