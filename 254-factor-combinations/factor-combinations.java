@@ -1,35 +1,39 @@
-public class Solution {
-    public List<List<Integer>> getFactors(int n) {
-        List<List<Integer>> results = new ArrayList<>();
-        if (n <=3) {
-            return results;
-        }
-        
-        getFactors(n, 2, new ArrayList<Integer>(), results);
-        return results;
-    }
+class Solution {
+    /**
+    12
+    factors: 2, 3, 4, 6
+           2                        3
+    2,2         2,3 2,4 2,6     3,3  3,4
+    2,2,2 2,2,3                 
     
-    private void getFactors(int n, int start, List<Integer> current, List<List<Integer>> results) {
-        if (n == 1) {
-        	if (current.size() > 1) {
-        		results.add(new ArrayList<Integer>(current));
-        	}
+    
+    
+     */
+    List<List<Integer>> res;
+    public List<List<Integer>> getFactors(int n) {
+        res = new ArrayList<>();
+        dfs(n, 2, new ArrayList<>());
+        return res;
+    }
+
+    private void dfs(int num, int start, List<Integer> cur) {
+        if (num == 1) {
+            if (cur.size() > 1) {
+                res.add(new ArrayList<>(cur));
+            }
             return;
         }
-	        
         
-        for (int i = start; i <= (int) Math.sqrt(n); i++) {  // ==> here, change 1
-            if (n % i != 0) {
-                continue;
-            }   
-            current.add(i);
-            getFactors(n/i, i, current, results);
-            current.remove(current.size()-1);
+        for (int i = start; i * i <= num; i++) {
+            if (num % i == 0) {
+                cur.add(i);
+                dfs(num / i, i, cur);
+                cur.remove(cur.size() - 1);
+            }
         }
-        
-        int i = n; // ===> here, change 2
-        current.add(i);
-        getFactors(n/i, i, current, results);
-        current.remove(current.size()-1);
+
+        cur.add(num);
+        dfs(1, num, cur);
+        cur.remove(cur.size() - 1);
     }
 }
