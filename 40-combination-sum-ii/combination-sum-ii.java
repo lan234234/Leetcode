@@ -20,14 +20,11 @@ class Solution {
         }
         if (index == arr.length || arr[index] > rem)    return;
 
-        cur.add(arr[index]);
-        dfs(arr, index + 1, rem - arr[index], cur);
-        cur.remove(cur.size() - 1);
-
-        int next = index + 1;
-        while (next < arr.length && arr[next] == arr[index]) {
-            next++;
+        for (int i = index; i < arr.length; i++) {
+            if (i != index && arr[i] == arr[i - 1]) continue;
+            cur.add(arr[i]);
+            dfs(arr, i + 1, rem - arr[i], cur);
+            cur.remove(cur.size() - 1);
         }
-        dfs(arr, next, rem, cur);
     }
 }
