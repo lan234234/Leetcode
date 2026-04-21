@@ -1,29 +1,36 @@
 class Solution {
     public boolean isNumber(String s) {
-        boolean hasDot = false;
-        boolean hasE = false;
-        boolean hasDigit = false;
+        List<Map<String, Integer>> list = new ArrayList<>();
+        list.add(Map.of("digit", 1, "sign", 2, "dot", 3));
+        list.add(Map.of("e", 5, "dot", 4, "digit", 1));
+        list.add(Map.of("digit", 1, "dot", 3));
+        list.add(Map.of("digit", 4));
+        list.add(Map.of("digit", 4, "e", 5));
+        list.add(Map.of("digit", 7, "sign", 6));
+        list.add(Map.of("digit", 7));
+        list.add(Map.of("digit", 7));
+        Set<Integer> numberState = new HashSet(List.of(1, 4, 7));
 
+        int state = 0;
         for (int i = 0; i < s.length(); i++) {
+            String op;
             char c = s.charAt(i);
-            if (c == '+' || c == '-') {
-                if (i != 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') {
-                    return false;
-                }
-            } else if (c == '.') {
-                if (hasE || hasDot) return false;
-                hasDot = true;
+            if (c == '.') {
+                op = "dot";
             } else if (c == 'e' || c == 'E') {
-                if (!hasDigit || hasE)  return false;
-                hasE = true;
-                hasDigit = false;
+                op = "e";
             } else if (Character.isDigit(c)) {
-                hasDigit = true;
+                op = "digit";
+            } else if (c == '+' || c == '-') {
+                op = "sign";
             } else {
                 return false;
             }
-        }
 
-        return hasDigit;
+            Integer next = list.get(state).get(op);
+            if (next == null)   return false;
+            state = next;
+        }
+        return numberState.contains(state);
     }
 }
