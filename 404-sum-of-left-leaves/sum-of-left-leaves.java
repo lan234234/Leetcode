@@ -18,24 +18,35 @@ class Solution {
         if (root == null)   return 0;
 
         int sum = 0;
-        Deque<TreeNode> stack = new LinkedList<>();
-        stack.offerFirst(root);
-        while (!stack.isEmpty()) {
-            TreeNode cur = stack.pollFirst();
+        TreeNode cur = root;
+        while (cur != null) {
+            if (cur.left != null) {
+                if (cur.left.left == null && cur.left.right == null) {
+                    sum += cur.left.val;
+                }
 
-            // check left leave
-            TreeNode left = cur.left;
-            if (left != null && left.left == null && left.right == null) {
-                sum += left.val;
-            }
+                // find rightMost node in root.left
+                TreeNode rightMost = findRightMost(cur.left, cur);
 
-            if (cur.right != null) {
-                stack.offerFirst(cur.right);
-            }
-            if (left != null) {
-                stack.offerFirst(left);
+                // if there is a cycle, move to right
+                if (rightMost.right != null) {
+                    rightMost.right = null; // recover the tree
+                    cur = cur.right;
+                } else {
+                    rightMost.right = cur;
+                    cur = cur.left;
+                }
+            } else {
+                cur = cur.right;
             }
         }
         return sum;
+    }
+
+    private TreeNode findRightMost(TreeNode root, TreeNode startNode) {
+        while (root.right != null && root.right != startNode) {
+            root = root.right;
+        }
+        return root;
     }
 }
