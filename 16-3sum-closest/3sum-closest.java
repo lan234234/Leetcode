@@ -9,6 +9,7 @@ class Solution {
             while (j < k) {
                 int sum = nums[i] + nums[j] + nums[k];
                 int curDiff = target - sum;
+                if (curDiff == 0)   return target;
                 if (Math.abs(curDiff) < Math.abs(diff)) {
                     diff = curDiff;
                 }
