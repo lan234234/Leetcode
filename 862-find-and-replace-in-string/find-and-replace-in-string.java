@@ -1,47 +1,56 @@
 class Solution {
+    /**
+    0123         index
+    abcd    [0,2]
+      i
+        s
+    sb:eeebffff
+     */
     public String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
-        StringBuilder sb = new StringBuilder();
-        int n = indices.length;
-        Cell[] arr = new Cell[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = new Cell(indices[i], sources[i], targets[i]);
+        Node[] arr = new Node[indices.length];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = new Node(indices[i], sources[i], targets[i]);
         }
         Arrays.sort(arr);
 
         int start = 0;
-        for (Cell cur : arr) {
-            int indice = cur.indice;
-            String source = cur.source;
-            if (indice > start) {
-                sb.append(s.substring(start, indice));
-                start = indice;
-            }
-            int end = indice + source.length();
-            if (end > s.length())   continue;
-            String subS = s.substring(indice, end);
-            if (source.equals(subS)) {
+        StringBuilder sb = new StringBuilder();
+        for (Node cur : arr) {
+            int index = cur.index;
+            if (index < start)  continue;
+            if (index > s.length()) break;
+            if (exist(s, index, cur.source)) {
+                sb.append(s.substring(start, index));
                 sb.append(cur.target);
-                start = end;
+                start = index + cur.source.length();
             }
         }
         sb.append(s.substring(start, s.length()));
         return sb.toString();
     }
 
-    class Cell implements Comparable<Cell>{
-        int indice;
+    private boolean exist(String s, int start, String source) {
+        if (start + source.length() > s.length())  return false;
+        for (int i = 0; i < source.length(); i++) {
+            if (s.charAt(start + i) != source.charAt(i))    return false;
+        }
+        return true;
+    }
+
+    class Node implements Comparable<Node>{
+        int index;
         String source;
         String target;
 
-        Cell(int indice, String source, String target) {
-            this.indice = indice;
+        Node(int index, String source, String target) {
+            this.index = index;
             this.source = source;
             this.target = target;
         }
 
         @Override
-        public int compareTo(Cell another) {
-            return Integer.compare(this.indice, another.indice);
+        public int compareTo(Node another) {
+            return Integer.compare(this.index, another.index);
         }
     }
 }
