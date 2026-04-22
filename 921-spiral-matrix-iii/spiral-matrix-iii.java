@@ -1,7 +1,8 @@
 class Solution {
     public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
         int[][] matrix = new int[rows][cols];
-        int[][] res = new int[rows * cols][2];
+        int max = rows * cols;
+        int[][] res = new int[max][2];
         int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         
         int r = rStart, c = cStart;
@@ -12,12 +13,14 @@ class Solution {
         matrix[r][c] = 1;
         res[count++] = new int[]{r, c};
 
-        while (count < rows * cols) {
+        while (count < max) {
             // Find next position logic
             int nextR = r + dirs[dirIndex][0];
             int nextC = c + dirs[dirIndex][1];
 
             // Loop until we find a valid move based on your rules
+            // if next position is out of bound -> stay here + turn dir
+            // if it has been filled -> back to origianl pos + keep original dir
             while (!isValid(nextR, nextC, rows, cols) || matrix[nextR][nextC] != 0) {
                 if (!isValid(nextR, nextC, rows, cols)) {
                     r = nextR;
