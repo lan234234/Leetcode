@@ -19,7 +19,7 @@ class Solution {
             int index = cur.index;
             if (index < start)  continue;
             if (index > s.length()) break;
-            if (exist(s, index, cur.source)) {
+            if (s.startsWith(cur.source, index)) {
                 sb.append(s.substring(start, index));
                 sb.append(cur.target);
                 start = index + cur.source.length();
@@ -27,14 +27,6 @@ class Solution {
         }
         sb.append(s.substring(start, s.length()));
         return sb.toString();
-    }
-
-    private boolean exist(String s, int start, String source) {
-        if (start + source.length() > s.length())  return false;
-        for (int i = 0; i < source.length(); i++) {
-            if (s.charAt(start + i) != source.charAt(i))    return false;
-        }
-        return true;
     }
 
     class Node implements Comparable<Node>{
