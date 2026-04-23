@@ -6,7 +6,7 @@ class Solution {
             for (int cut = 1; cut <= i / 2; cut++) {
                 int first = Math.max(cut, dp[cut]);
                 int second = Math.max(i - cut, dp[i - cut]);
-                dp[i] = Math.max(first * second, dp[i]);
+                dp[i] = Math.max(cut * Math.max(i - cut, dp[i - cut]), dp[i]);
             }
         }
         return dp[n];
