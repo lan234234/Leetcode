@@ -1,10 +1,6 @@
 class Solution {
-    int[] map;
-
     public List<String> findAndReplacePattern(String[] words, String pattern) {
         List<String> res = new ArrayList<>();
-        map = new int[26];
-        
         for (String word : words) {
             if (isValid(word, pattern)) {
                 res.add(word);
@@ -13,21 +9,19 @@ class Solution {
         return res;
     }
 
-    private boolean isValid(String word, String pattern) {
-            Arrays.fill(map, -1);
-            for (int i = 0; i < word.length(); i++) {
-                int cInd = pattern.charAt(i) - 'a';
-                int toInd = word.charAt(i) - 'a';
-                if (map[cInd] != -1 && map[cInd] != toInd)  return false;
-                map[cInd] = toInd;
-            }
-
-            int[] count = new int[26];
-            for (int val : map) {
-                if (val == -1)   continue;
-                if (count[val] == 1)    return false;
-                count[val] = 1;
-            }
-            return true;
+    private boolean isValid(String s, String pattern) {
+        int[] map = new int[26];
+        int[] reverseMap = new int[26];
+        Arrays.fill(map, -1);
+        Arrays.fill(reverseMap, -1);
+        for (int i = 0; i < s.length(); i++) {
+            int index = s.charAt(i) - 'a';
+            int patInd = pattern.charAt(i) - 'a';
+            if (map[index] != -1 && map[index] != patInd)   return false;
+            if (reverseMap[patInd] != -1 && reverseMap[patInd] != index)  return false;
+            map[index] = patInd;
+            reverseMap[patInd] = index;
+        }
+        return true;
     }
 }
