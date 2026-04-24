@@ -1,1 +1,1 @@
-<h2>longest-subarray-of-1s-after-deleting-one-element Notes</h2><hr>[ Time taken: 5m 51s ]
+<h2>longest-subarray-of-1s-after-deleting-one-element Notes</h2><hr>[ Time taken: 4m 45s ]
