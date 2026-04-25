@@ -3,18 +3,33 @@ class Solution {
         int n = nums.length;
         if (n == 1) return 1;
 
-        int max = 1;
-        // dp[i]: longest increasing subseq end at i
-        int[] dp = new int[n];
-        for (int i = 0; i < n; i++) {
-            dp[i] = 1;
-            for (int j = i - 1; j >= 0; j--) {
-                if (nums[j] < nums[i]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+        List<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > list.get(list.size() - 1)) {
+                list.add(nums[i]);
+            } else {
+                int index = findFirstLargerOrEqual(list, nums[i]);
+                list.set(index, nums[i]);
             }
-            max = Math.max(max, dp[i]);
         }
-        return max;
+        return list.size();
+    }
+
+    private int findFirstLargerOrEqual(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        int res = right;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (list.get(mid) == target)    return mid;
+            if (list.get(mid) > target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
     }
 }
