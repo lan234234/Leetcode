@@ -1,18 +1,33 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        int max = 1;
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
+        List<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
 
         for (int i = 1; i < n; i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                if (nums[i] > nums[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+            if (nums[i] > list.get(list.size() - 1)) {
+                list.add(nums[i]);
+            } else {
+                int replace = findFirstLargerOrEqual(list, nums[i]);
+                list.set(replace, nums[i]);
             }
-            max = Math.max(max, dp[i]);
         }
-        return max;
+        return list.size();
+    }
+
+    private int findFirstLargerOrEqual(List<Integer> list, int target) {
+        int left = 0;
+        int right = list.size() - 1;
+        int res = right;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (list.get(mid) >= target) {
+                res = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
     }
 }
