@@ -12,31 +12,37 @@ class Solution {
     public ListNode rotateRight(ListNode head, int k) {
         if (head == null || head.next == null)  return head;
 
-        int count = getCount(head);
-        k %= count;
+        // 1. get size
+        int size = getSize(head);
+        k %= size;
         if (k == 0) return head;
 
+        // 2. find kth node (start at 0)
+        ListNode node = head;
+        for (int i = 0; i < k; i++) {
+            node = node.next;
+        }
+
+        // 3. find break
         ListNode cur = head;
-        while (k > 0) {
-            cur = cur.next;
-            k--;
-        }
-        ListNode pre = head;
-        while (cur.next != null) {
-            pre = pre.next;
+        while (node.next != null) {
+            node = node.next;
             cur = cur.next;
         }
-        ListNode newHead = pre.next;
-        pre.next = null;
-        cur.next = head;
-        return newHead;
+
+        // 4. reorder
+        node.next = head;
+        head = cur.next;
+        cur.next = null;
+
+        return head;
     }
 
-    private int getCount(ListNode head) {
+    private int getSize(ListNode head) {
         int count = 0;
         while (head != null) {
-            count++;
             head = head.next;
+            count++;
         }
         return count;
     }
