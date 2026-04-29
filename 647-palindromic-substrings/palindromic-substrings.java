@@ -1,25 +1,23 @@
 class Solution {
+    int n;
+    int count;
     public int countSubstrings(String s) {
-        int n = s.length();
+        n = s.length();
         if (n == 1) return 1;
 
-        int count = 0;
-        boolean[][] dp = new boolean[n][n];
-
-        for (int len = 1; len <= n; len++) {
-            for (int i = 0; i + len - 1 < n; i++) {
-                if (len == 1) {
-                    dp[i][i] = true;
-                    count++;
-                } else {
-                    int j = i + len - 1;
-                    if (s.charAt(i) == s.charAt(j) && (i + 1 == j || dp[i + 1][j - 1])) {
-                        dp[i][j] = true;
-                        count++;
-                    }
-                }
-            }
+        count = 0;
+        for (int i = 0; i < n; i++) {
+            maxPalindrom(s, i, i);
+            maxPalindrom(s, i, i + 1);
         }
         return count;
+    }
+
+    private void maxPalindrom(String s, int left, int right) {
+        while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+            count++;
+            left--;
+            right++;
+        }
     }
 }
