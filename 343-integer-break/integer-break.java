@@ -1,17 +1,26 @@
 class Solution {
-    int[] dp;
+    /**
+    0 1 2 3 4 5
+      1 2 3 
+            1 3
+            2 2
+            4
+
+    
+     */
     public int integerBreak(int n) {
-        dp = new int[n + 1];
-        dp[1] = 1;
-        return maxBreak(n);
-    }
+        if (n == 1) return 1;
 
-    private int maxBreak(int n) {
-        if (dp[n] != 0) return dp[n];
-
-        for (int cut = 1; cut <= n / 2; cut++) {
-            dp[n] = Math.max(cut * Math.max(n - cut, maxBreak(n - cut)), dp[n]);
+        int[] max = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            if (i != n) {
+                max[i] = i;
+            }
+            for (int cut = 1; cut <= i / 2; cut++) {
+                int product = max[cut] * max[i - cut];
+                max[i] = Math.max(max[i], product);
+            }
         }
-        return dp[n]; 
+        return max[n];
     }
 }
